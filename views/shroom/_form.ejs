@@ -1,0 +1,41 @@
+<style type="text/css">
+	html,body{width: 100%; 
+		}
+	form{margin: 0 auto;
+		width: 80%; 
+	}
+	form * {display: block;
+		font-family: "Times New Roman",Georgia,Serif;}
+	.moreinfo {height: 50px; 
+		width: 200px; 
+		padding: 0;
+	}
+	#sub{position: absolute;
+		left: 70%;
+		top: 50px;
+		width: 200px;
+		height: 50px;}
+</style>
+<form action='/shroom/<%- action %>' method="post" enctype="multipart/form-data">
+	<p>FRONT</p>
+	<%if(shroom.hasOwnProperty('id')) { %>
+		<input type="hidden" name="id" value="<%- shroom.id %>"/>
+	<% } %>
+	<input type="text" name="name" value="<%- shroom.name %>" placeholder="Название гриба"/>
+	<input type="file"  name="image" /><img src="<%- shroom.image %>"/>
+	<select name="type_id">
+		<% shroom_types.forEach(function(type){ %>
+			<option value="<%- type.id %>" <%- (shroom.type_id == type.id) ? "selected" : "" %>><%- type.name %></option>
+		<% }) %>
+	</select>
+	<textarea class="moreinfo" name="where" placeholder="где искать"><%- shroom.where %></textarea>
+	<textarea class="moreinfo"  name="when" placeholder="когда искать"><%- shroom.when %></textarea>
+	<textarea class="moreinfo" name="what" placeholder="что искать"><%- shroom.what %></textarea>
+	<p>BACK</p>
+	<input type="text" name="status" value="<%- shroom.status %>" placeholder="Статус"/>
+	<textarea class="moreinfo" name="addDiscription" placeholder="дополнительные сведения"><%- shroom.addDiscription %></textarea>
+	<input id="sub" type='submit'/>
+	
+</form>
+<script type="text/javascript">CKEDITOR.replace( 'addDiscription');</script>
+

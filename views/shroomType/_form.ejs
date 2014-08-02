@@ -1,0 +1,46 @@
+<style type="text/css">
+	html,body{width: 100%; 
+		}
+	form{margin: 0 auto;
+		width: 80%; 
+	}
+	form * {display: block;
+		font-family: "Times New Roman",Georgia,Serif;}
+	.moreinfo {height: 50px; 
+		width: 200px; 
+		padding: 0;
+	}
+	#sub{position: absolute;
+		left: 70%;
+		top: 50px;
+		width: 200px;
+		height: 50px;}
+</style>
+<form action='/shroomType/<%- action %>' method="post" enctype="multipart/form-data">
+	<%if(shroom_type.hasOwnProperty('id')) { %>
+		<input type="hidden" name="id" value="<%- shroom_type.id %>"/>
+	<% } %>
+	<input type="text" name="name" value="<%- shroom_type.name %>" placeholder="Название категории"/>
+	<input type="text" name="maincolor" value="<%- shroom_type.maincolor %>" id="colorpickerHolder" value=""/>
+	<input type="text" name="addcolor" value="<%- shroom_type.addcolor %>" id="colorpickerHolder2" value=""/>
+	<textarea class="moreinfo" name="svgIcon" placeholder="svg icon"><%- shroom_type.svgIcon %></textarea>
+	<textarea class="moreinfo" name="mushIcon" placeholder="svg mush"><%- shroom_type.mushIcon %></textarea>
+	<input type="file"  name="icon" /><img src="<%- shroom_type.icon %>"/> 
+	<input id="sub" type='submit'/>
+	
+</form>
+<script type="text/javascript">
+	$('#colorpickerHolder').ColorPicker({
+		onSubmit: function(hsb, hex, rgb, el) {
+			$(el).val(hex);
+			$(el).ColorPickerHide();
+		}
+	});
+	$('#colorpickerHolder2').ColorPicker({
+		onSubmit: function(hsb, hex, rgb, el) {
+			$(el).val(hex);
+			$(el).ColorPickerHide();
+		}
+	});
+	</script>
+

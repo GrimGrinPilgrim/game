@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Generator: Adobe Illustrator 16.0.0, SVG Export Plug-In . SVG Version: 6.00 Build 0)  -->
+<!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN" "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd" [
+	<!ENTITY ns_flows "http://ns.adobe.com/Flows/1.0/">
+	<!ENTITY ns_extend "http://ns.adobe.com/Extensibility/1.0/">
+	<!ENTITY ns_ai "http://ns.adobe.com/AdobeIllustrator/10.0/">
+	<!ENTITY ns_graphs "http://ns.adobe.com/Graphs/1.0/">
+	<!ENTITY ns_vars "http://ns.adobe.com/Variables/1.0/">
+	<!ENTITY ns_imrep "http://ns.adobe.com/ImageReplacement/1.0/">
+	<!ENTITY ns_sfw "http://ns.adobe.com/SaveForWeb/1.0/">
+	<!ENTITY ns_custom "http://ns.adobe.com/GenericCustomNamespace/1.0/">
+	<!ENTITY ns_adobe_xpath "http://ns.adobe.com/XPath/1.0/">
+]>
+<svg version="1.1" id="Слой_1" xmlns:x="&ns_extend;" xmlns:i="&ns_ai;" xmlns:graph="&ns_graphs;"
+	 xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" xmlns:a="http://ns.adobe.com/AdobeSVGViewerExtensions/3.0/"
+	 x="0px" y="0px" width="562.287px" height="841.89px" viewBox="0 0 562.287 841.89" enable-background="new 0 0 562.287 841.89"
+	 xml:space="preserve">
+	 <g id="sing">
+        <g>
+          <path fill="#FFFFFF" d="M516.946,55.972l4.094-15.057h-3.865c-0.91-0.451-2.503-2.713-4.322-2.939
+                c-1.819-0.227-14.454-0.658-15.922,0c-2.349,1.056-2.269,3.619-1.586,4.523c0,0-2.583-0.377-3.343,2.11
+                c-0.491,1.613-0.151,3.089-0.151,3.089s-1.904,0.769-2.137,2.412c-0.364,2.564,1.077,3.467,1.077,3.467s-1.23,1.478-1.063,2.394
+                c0.685,3.713,4.019,3.485,4.019,3.485h9.175c0,0-0.104,7.306,0,7.688c1.213,4.446,4.928,6.859,6.064,5.878
+                c0.827-0.711,0.674-3.562,0.674-4.295C509.659,61.569,516.946,55.972,516.946,55.972z"/>
+          <polygon fill="#FFFFFF" points="517.631,58.704 529.837,58.704 535.446,38.729 522.708,38.729         "/>
+          <polygon fill="#FFFFFF" points="496.174,60.061 499.889,60.061 498.827,64.207 495.264,64.207         "/>
+          <path fill="#FFFFFF" d="M499.571,64.886c0-0.001,1.923,0.606,1.075,3.579c-1.517,5.314-2.976,14.372-3.072,15.642
+                c-0.063,0.857-1.162,2.96-1.718,0.979c-0.593-2.11,1.139-12.095,1.188-13.038c0.043-0.819-0.341-1.51-0.871-0.455
+                c-0.531,1.056-1.649,11.868-1.858,12.514c-0.208,0.643-1.099,2.185-1.63,0.149c-0.53-2.034,1.314-12.187,1.289-13.001
+                c-0.022-0.792-0.646-1.433-1.1,0.226c-0.453,1.659-1.586,10.155-1.819,11.57c-0.304,1.847-1.495,1.715-1.857-0.452
+                c-0.455-2.713,1.593-14.961,3.224-16.997C493.262,64.55,493.431,64.81,499.571,64.886z"/>
+          <polygon fill="#FFFFFF" points="504.322,37.174 507.272,27.194 501.399,27.225 499.889,37.174         "/>
+        </g>
+            
+          <ellipse fill="none" stroke="#FF3333" stroke-width="7" stroke-miterlimit="10" cx="508.998" cy="55.276" rx="38.911" ry="38.684"/>
+ </g>
+</svg>

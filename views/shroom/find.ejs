@@ -1,0 +1,139 @@
+
+
+<style type="text/css" media="screen">
+.maincolor {fill: #<%- shroom_type.maincolor %>;}
+.addcolor {fill: #<%- shroom_type.addcolor %>;}
+.green{color: #0f0;}
+.eachSide{position: absolute;
+    width: 30%;
+    font-family: 'Roboto', sans-serif;
+    font-size:12px; 
+    font-weight: 400;
+    transition: all 0.4s linear;
+    transform-origin: 50% 0%;
+  }
+
+#card{position: absolute;
+     width: 100%;
+     height: 100%;
+     transform-style: preserve-3d;
+}
+.turnRight{
+     transform: translate3d(-280px,0,0) rotate3d(0,1,0,90deg);
+     opacity: 0.3;
+}
+.turnLeft{
+     transform: rotate3d(0,1,0,0deg);
+     opacity: 1;
+}
+.turn{transform: translate3d(220px,0,0) rotate3d(0,1,0,90deg);
+     opacity: 0.7;
+}
+
+h1{font-weight: 700; 
+    margin: 0;
+    color: #fff;
+    font-weight: 500; 
+    font-size:14px;
+}
+p{margin: 5px 0;
+line-height: 1.5;}
+
+#title{color: #fff;
+font-family: 'Istok Web', sans-serif;
+}
+#title :last-child{font-weight: 400; 
+    font-size: 11px;
+    margin: 0px;
+}
+#title :first-child{font-weight: 700;
+    font-size: 22px;
+    margin: 0px;
+}
+
+#contentinfo :first-child{margin-top: 25px;}
+#mainInfo{position: relative;
+    margin: -352px 30px 0 30px;
+}
+#addInfo{position: relative;
+    margin: -607px 30px 0 30px;
+}
+</style>
+
+<div id="card">
+   <div id="frontSide" class="eachSide">
+    <svg version="1.1" viewBox="0 0 562.287 841.89" >
+      <rect x="-0.668" class="maincolor" width="563.621" height="844.938"/>
+      <image overflow="visible" width="3456" height="2592" xlink:href="<%- shroom.image %>" transform="matrix(0.1631 0 0 0.1621 -0.668 0)"></image>
+      <rect x="-0.668" y="347.673" opacity="0.6"  width="563.621" height="72.577"/>
+      <rect x="58.902" y="449.67" fill="none" width="445.342" height="572.688"/>
+      <g id="sing"><%- shroom_type.svgIcon %></g>
+      <path id="arrowRight" class="addcolor" fill-opacity='0.15' d="M484.879,818.54l19.159-14.938c0,0,0.751,22.933,22.731,20.444c8.82-0.998,3.256-11.27,3.918-10.641c3.497,3.304,11.216,7.564,21.105,6.944c3.222-0.201-5.911,1.294-14.247,17.994c-0.504,1.011-0.928-7.734-7.98-5.469C526.934,833.722,491.971,839.149,484.879,818.54z"/>   
+    </svg>
+    <div id="mainInfo">
+      <span id="title">
+        <p><%- shroom.name %></p>
+      </span>
+      <span id="contentinfo">
+        <h1 >Где искать</h1><p><%- shroom.where %></p>
+        <h1 >Когда искать</h1><p><%- shroom.when %></p>
+        <h1 >Что искать</h1><p><%- shroom.what %></p>
+      </span>
+    </div>
+  </div>
+
+  <div id="backSide" class="turn eachSide">
+    <svg version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" viewBox="0 0 562.287 841.89">
+      <rect x="0" fill="#FFFFFF" stroke="none"  width="562.287" height="841.89"/>
+      <rect x="0" y="0.883" opacity="0.9" class="addcolor" width="562.287" height="103.99"/>
+      <g id="sing"><%- shroom_type.svgIcon %></g>
+      <path class="addcolor" id="arrowLeft" fill-opacity='0.15' d="M83.973,810.054L64.858,795.17c0,0-0.75,22.851-22.678,20.37
+      c-8.798-0.996-3.248-11.229-3.91-10.603c-3.487,3.292-11.188,7.537-21.054,6.921c-3.213-0.201,5.896,1.288,14.212,17.928
+      c0.503,1.008,0.925-7.707,7.962-5.449C42.017,825.18,76.897,830.588,83.973,810.054z"/>
+      <g id="picShroom" opacity="0.5"><%- shroom_type.mushIcon %></g> 
+    </svg>
+    <div id="addInfo">
+      <span id="title">
+        <p><%- shroom.name %></p>
+        <p><%- shroom.status %></p>
+      </span>
+      <span id="contentinfo"><%- shroom.addDiscription %></span>
+    </div>
+  </div> 
+</div> 
+        <!-- p><h1>Последствия отравления:</h1>
+        Смерть наступает в 90% случаев, через 16 дней после отравления. Если лечение началось в течение 36 часов после приёма гриба, гибель можно предотвритить. Для отравления достаточно 30 граммов — это треть/половина одного гриба.</p>
+        
+        <p><h1>Признаки отравления:</h1> 
+        Спустя ¼-2 суток появляется рвота, кишечные колики, боли в мышцах, неутолимая жажда, холероподобный понос     (часто с кровью). Артериальное давление понижено, наблюдается потеря сознания. </p>
+        
+        <p><h1>Первая помощь: </h1>
+        На первом этапе — промывание желудка и принятие активированного угля. В дальнейшем проводится лечение обезвоживания. Хорошим антидотом является отвар из расторопши пятнистой.
+        Требуется госпитализация. Часто единственный способ предотвратить смерть — пересадка печени.</p>
+        
+        <p><h1>Двойники:</h1>
+        <span class="green">Шампиньоны.</span> У них  не бывает вольвы. 
+        <span class="green">Сыроежки. </span>Не бывает ни вольвы, ни кольца,  отличаются характерной ломкостью мякоти.
+        <span class="green">Зеленушки. </span>Нет кольца и вольвы.</p> -->
+      
+   
+
+   
+<!-- <img src="<%- shroom_type.icon %>"/>  --> 
+<script type="text/javascript">
+  var a=function(){
+  $("#arrowLeft").on('click',function(){
+    $("#backSide").removeClass('turnLeft')
+    .addClass('turn')
+    $("#frontSide").removeClass('turnRight');
+  });
+  $("#arrowRight").on('click',function(){
+    $("#backSide").removeClass('turn')
+    .addClass('turnLeft')
+    $("#frontSide").addClass('turnRight');
+  });
+}
+a();
+</script>
+</body>
+</html>

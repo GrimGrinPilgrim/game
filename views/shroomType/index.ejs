@@ -1,0 +1,31 @@
+<style type="text/css">
+  .firstGroup{background-color: white;
+    margin: 0;
+    width: 30%;
+      }
+  li{ list-style: none;
+    font-size: 14px;
+    border: 1px solid black;
+    padding: 10px 10px 20px 10px;
+}
+  a{text-decoration: none;}
+  .object{font-size: 18px;}
+  .option{ 
+    width: 30%;
+    float: right;}
+</style>
+<div class="firstGroup">
+  <p>Виды грибов</p>
+  <a href="/shroomType/new"><button>Новый</button></a>
+  <ul>
+  	<% shroom_types.forEach(function(shroom) { %>
+  		<li><a class="object" href="/shroomType/<%-shroom.id%>"><%- shroom.name %></a>
+        <span class="option">
+          <a href="/shroomType/edit/<%-shroom.id%>">редактировать</a>
+          <br/>
+          <a href="/shroomType/destroy/<%-shroom.id%>">yдалить</a>
+        </span>
+      </li>
+  	<% }) %>
+  </ul>
+</div>
