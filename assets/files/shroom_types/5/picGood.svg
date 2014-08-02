@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Generator: Adobe Illustrator 16.0.0, SVG Export Plug-In . SVG Version: 6.00 Build 0)  -->
+<!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN" "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd" [
+	<!ENTITY ns_flows "http://ns.adobe.com/Flows/1.0/">
+	<!ENTITY ns_extend "http://ns.adobe.com/Extensibility/1.0/">
+	<!ENTITY ns_ai "http://ns.adobe.com/AdobeIllustrator/10.0/">
+	<!ENTITY ns_graphs "http://ns.adobe.com/Graphs/1.0/">
+	<!ENTITY ns_vars "http://ns.adobe.com/Variables/1.0/">
+	<!ENTITY ns_imrep "http://ns.adobe.com/ImageReplacement/1.0/">
+	<!ENTITY ns_sfw "http://ns.adobe.com/SaveForWeb/1.0/">
+	<!ENTITY ns_custom "http://ns.adobe.com/GenericCustomNamespace/1.0/">
+	<!ENTITY ns_adobe_xpath "http://ns.adobe.com/XPath/1.0/">
+]>
+<svg version="1.1" id="Слой_1" xmlns:x="&ns_extend;" xmlns:i="&ns_ai;" xmlns:graph="&ns_graphs;"
+	 xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" xmlns:a="http://ns.adobe.com/AdobeSVGViewerExtensions/3.0/"
+	 x="0px" y="0px" width="562.287px" height="841.89px" viewBox="0 0 562.287 841.89" enable-background="new 0 0 562.287 841.89"
+	 xml:space="preserve">
+	 <g id="sing">
+        <g>
+    <path fill="#FFFFFF" d="M496.988,56.262l-4.094,15.058h3.864c0.91,0.451,2.502,2.714,4.322,2.938
+      c1.818,0.228,14.453,0.658,15.922,0c2.351-1.056,2.271-3.619,1.586-4.522c0,0,2.582,0.377,3.343-2.109
+      c0.491-1.613,0.151-3.089,0.151-3.089s1.904-0.77,2.137-2.412c0.363-2.563-1.077-3.467-1.077-3.467s1.229-1.479,1.063-2.396
+      c-0.686-3.713-4.02-3.484-4.02-3.484h-9.177c0,0,0.105-7.307,0-7.688c-1.213-4.445-4.928-6.858-6.063-5.878
+      c-0.828,0.711-0.674,3.563-0.674,4.295C504.275,50.665,496.988,56.262,496.988,56.262z"/>
+    <polygon fill="#FFFFFF" points="496.302,53.531 484.098,53.531 478.488,73.505 491.227,73.505     "/>
+    <polygon fill="#FFFFFF" points="517.759,52.173 514.044,52.173 515.107,48.028 518.669,48.028     "/>
+    <path fill="#FFFFFF" d="M514.363,47.348c0,0.001-1.922-0.604-1.074-3.578c1.517-5.313,2.976-14.372,3.072-15.643
+      c0.063-0.856,1.16-2.96,1.717-0.979c0.594,2.109-1.139,12.096-1.188,13.038c-0.043,0.818,0.342,1.51,0.87,0.454
+      c0.531-1.056,1.648-11.867,1.857-12.514c0.209-0.644,1.1-2.186,1.631-0.148c0.529,2.033-1.313,12.188-1.289,13.001
+      c0.021,0.792,0.646,1.434,1.101-0.227s1.586-10.155,1.817-11.57c0.306-1.847,1.496-1.715,1.857,0.452
+      c0.455,2.713-1.594,14.961-3.226,16.997C520.671,47.685,520.503,47.424,514.363,47.348z"/>
+    <polygon fill="#FFFFFF" points="509.613,75.061 506.661,85.04 512.534,85.009 514.044,75.061    "/>
+  </g>
+  <ellipse fill="none" stroke="#33FF33" stroke-width="7" stroke-miterlimit="10" cx="504.695" cy="55.276" rx="38.91" ry="38.684"/>
+ </g>
+</svg>

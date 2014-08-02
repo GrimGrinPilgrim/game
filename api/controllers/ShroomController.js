@@ -18,7 +18,7 @@
 module.exports = {
     'new': function(req,res,next) {
       ShroomType.find().done(function(err,types){
-    	 res.view({ shroom_types: types, hroom:{}, action:'create', _layoutFile:'../admin_layout.ejs' });
+    	 res.view({ shroom_types: types, shroom:{}, action:'create', _layoutFile:'../admin_layout.ejs' });
       });
     },
     'create': function(req,res,next){
