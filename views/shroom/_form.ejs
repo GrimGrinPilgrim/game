@@ -22,12 +22,17 @@
 		<input type="hidden" name="id" value="<%- shroom.id %>"/>
 	<% } %>
 	<input type="text" name="name" value="<%- shroom.name %>" placeholder="Название гриба"/>
-	<input type="file"  name="image" /><img src="<%- shroom.image %>"/>
+	<select name="circal_id">
+		<% circal.forEach(function(circal){ %>
+			<option value="<%- circal.id %>" <%- (shroom.circal_id == circal.id) ? "selected" : "" %>><%- circal.numberC %></option>
+		<% }) %>
+	</select>
 	<select name="type_id">
 		<% shroom_types.forEach(function(type){ %>
 			<option value="<%- type.id %>" <%- (shroom.type_id == type.id) ? "selected" : "" %>><%- type.name %></option>
 		<% }) %>
 	</select>
+	<input type="file"  name="image" /><img src="<%- shroom.image %>"/>
 	<textarea class="moreinfo" name="where" placeholder="где искать"><%- shroom.where %></textarea>
 	<textarea class="moreinfo"  name="when" placeholder="когда искать"><%- shroom.when %></textarea>
 	<textarea class="moreinfo" name="what" placeholder="что искать"><%- shroom.what %></textarea>

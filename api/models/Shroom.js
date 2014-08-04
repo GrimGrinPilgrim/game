@@ -3,7 +3,7 @@
  *
  * @module      :: Model
  * @description :: A short summary of how this model works and what it represents.
- * @docs		:: http://sailsjs.org/#!documentation/models
+ * @docs		    :: http://sailsjs.org/#!documentation/models
  */
 
 module.exports = {
@@ -16,7 +16,8 @@ module.exports = {
   	when: 'text',
   	what: 'text',
   	addDiscription:'text',
-    type_id: 'integer'
+    type_id: 'integer',
+    circal_id: 'integer'
   	/* e.g.
   	nickname: 'string'
   	*/

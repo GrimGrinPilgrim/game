@@ -1,0 +1,18 @@
+<style type="text/css">
+	html,body{width: 100%; 
+		}
+	form{margin: 0 auto;
+		width: 80%; 
+	}
+	form * {display: block;
+		font-family: "Times New Roman",Georgia,Serif;}
+</style>
+<form action='/circal/<%- action %>' method="post" enctype="multipart/form-data">
+	<%if(circal.hasOwnProperty('id')) { %>
+		<input type="hidden" name="id" value="<%- circal.id %>"/>
+	<% } %>
+	<input type="text" name="numberC" value="<%- circal.numberC %>" placeholder="Название круга"/>
+	<input id="sub" type='submit'/>
+	
+</form>
+

@@ -18,7 +18,9 @@
 module.exports = {
     'new': function(req,res,next) {
       ShroomType.find().done(function(err,types){
-    	 res.view({ shroom_types: types, shroom:{}, action:'create', _layoutFile:'../admin_layout.ejs' });
+        Circal.find().done(function(err,circals){
+    	   res.view({ circal: circals,shroom_types: types, shroom:{}, action:'create', _layoutFile:'../admin_layout.ejs' });
+        }); 
       });
     },
     'create': function(req,res,next){
@@ -48,14 +50,18 @@ module.exports = {
     'find': function(req,res,next){
     	Shroom.findOne(req.param('id')).done(function(err, shroom){
         ShroomType.findOne(shroom.type_id, function(err, type){
-          res.view({ shroom_type: type, shroom: shroom });
+          Circal.findOne(shroom.circal_id, function(err, circal){
+            res.view({circal:circal, shroom_type: type, shroom: shroom });
+          });
         });
     	});
     },
     'edit': function(req,res,next) {
       ShroomType.find().done(function(err,types){
-        Shroom.findOne(req.param('id')).done(function(err, shroom){
-          res.view({ shroom_types: types, shroom: shroom, action: 'update', _layoutFile:'../admin_layout.ejs' });
+        Circal.find().done(function(err,circals){
+          Shroom.findOne(req.param('id')).done(function(err, shroom){
+            res.view({circal:circals, shroom_types: types, shroom: shroom, action: 'update', _layoutFile:'../admin_layout.ejs' });
+          });
         });
       })
     },
@@ -67,7 +73,8 @@ module.exports = {
           where: req.param('where'), 
           what:req.param('what'), 
           addDiscription:req.param('addDiscription'),
-          type_id:req.param('type_id')
+          type_id:req.param('type_id'),
+          circal_id:req.param('circal_id')
         },
         function(err, shroom){
     		console.log(err);

@@ -15,6 +15,9 @@
     width: 30%;
     float: right;}
 </style>
+
+<button class="sort">По алфавиту</button>
+<input type="search" name="search">
 <div class="firstGroup">
   <p>All</p>
   <a href="/shroom/new"><button>Новый</button></a>
@@ -24,9 +27,30 @@
         <span class="option">
           <a href="/shroom/edit/<%-shroom.id%>">редактировать</a>
           <br/>
-          <a href="/shroom/destroy/<%-shroom.id%>">yдалить</a>
+          <a href="/shroom/destroy/<%-shroom.id%>" onclick="return confirm('Вы соизволили желание удалить этот объект, ТОЧНО?') ? true : false;">yдалить</a>
         </span>
       </li>
   	<% }) %>
   </ul>
 </div>
+
+<script type="text/javascript">
+  
+  $('.sort').click(function(){
+    var $elements = $('li');
+    var $target = $('.firstGroup ul');
+    
+    $elements.sort(function (a, b) {
+        var an = $(a).text(),
+            bn = $(b).text();
+        
+        if (an && bn) {
+            return an.toUpperCase().localeCompare(bn.toUpperCase());
+        }
+        
+        return 0;
+    });
+    
+    $elements.detach().appendTo($target);
+});
+</script>

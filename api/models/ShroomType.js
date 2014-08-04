@@ -14,7 +14,8 @@ module.exports = {
     addcolor:'string',
     icon: 'text',
     svgIcon:'text',
-    mushIcon:'text'
+    mushIcon:'text',
+    
     /* e.g.
     nickname: 'string'
     */
