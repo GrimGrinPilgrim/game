@@ -1,11 +1,8 @@
+<h1> <%- shroom_type.name %> </h1>
 <ul>
-    <% shrooms.forEach(function(shroom) { %>
-      <li><a class="object" href="/shroom/<%-shroom.id%>"><%- shroom.name %></a>
-        <span class="option">
-          <a href="/shroom/edit/<%-shroom.id%>">редактировать</a>
-          <br/>
-          <a href="/shroom/destroy/<%-shroom.id%>">yдалить</a>
-        </span>
-      </li>
-    <% }) %>
-  </ul>
+<% shrooms.forEach(function(shroom){ %>
+
+  <li><%- shroom.name %></li>
+
+<% }); %>
+</ul>

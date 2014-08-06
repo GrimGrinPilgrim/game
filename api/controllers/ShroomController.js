@@ -42,6 +42,11 @@ module.exports = {
     		// res.redirect('/shroom');
     	} );
     },
+    'search': function(req,res,next){
+      Shroom.find({ name:{ 'like':'%'+req.param('text')+'%' } }).done(function(err,shrooms){
+        res.json({ shrooms:shrooms });
+      });
+    },
     'index': function(req,res,next){
     	Shroom.find().done(function(err, shrooms){
     		res.view({ shrooms: shrooms, _layoutFile:'../admin_layout.ejs' });
@@ -71,6 +76,7 @@ module.exports = {
           name: req.param('name'), 
           status: req.param('status'), 
           where: req.param('where'), 
+          when:req.param('when'),
           what:req.param('what'), 
           addDiscription:req.param('addDiscription'),
           type_id:req.param('type_id'),

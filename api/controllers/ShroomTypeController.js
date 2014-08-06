@@ -48,7 +48,9 @@ module.exports = {
 
       'find': function(req,res,next){
         ShroomType.findOne(req.param('id')).done(function(err, shroom){
-          res.view({ shroom_type: shroom });
+          Shroom.find({ where: { type_id: shroom.id }}).done(function(err, shrooms) {
+            res.view({ shroom_type: shroom, shrooms: shrooms });
+          });
         });
       },
 

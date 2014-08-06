@@ -1,1 +1,18 @@
-ыыы
+
+<style type="text/css">
+  html,body{width: 100%; 
+    background: #fff;
+    }
+  form{margin: 0 auto;
+    width: 80%; 
+  }
+  form * {display: block;
+    font-family: "Times New Roman",Georgia,Serif;}
+</style><h1> <%- circal.numberC %> </h1>
+<ul>
+<% shrooms.forEach(function(shroom){ %>
+
+  <li><%- shroom.name %></li>
+
+<% }); %>
+</ul>

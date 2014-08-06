@@ -39,6 +39,11 @@ module.exports.routes = {
   'get /files/*': {
     controller: 'FileController',
     action: 'get'
+  },
+
+  '/search': {
+    controller: 'ShroomController',
+    action: 'search'
   }
 
   /*

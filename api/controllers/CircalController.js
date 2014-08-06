@@ -46,8 +46,10 @@ module.exports = {
     },
 
     'find': function(req,res,next){
-      ShroomType.findOne(req.param('id')).done(function(err, shroom){
-        res.view({ shroom_type: shroom });
+      Circal.findOne(req.param('id')).done(function(err, circal){
+        Shroom.find({ where: { circal_id: circal.id }}).done(function(err, shrooms) {
+          res.view({ circal: circal, shrooms: shrooms });
+        });
       });
     },
 

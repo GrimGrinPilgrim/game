@@ -17,7 +17,8 @@
 </style>
 
 <button class="sort">По алфавиту</button>
-<input type="search" name="search">
+<input type="search" name="search" id="search" autocomplete="on">
+<input id="sub" type='submit'/>
 <div class="firstGroup">
   <p>All</p>
   <a href="/shroom/new"><button>Новый</button></a>
@@ -53,4 +54,14 @@
     
     $elements.detach().appendTo($target);
 });
+
+  $("#search").on('keyup', function(e){
+    if(e.which==13) e.preventDefault();
+    $.get('/search', { text: $(this).val()}, function(data){
+      $("#sub").on('click', function(){
+        location="http://localhost:1337/shroom/"+data.shrooms[0].id+"";
+      })
+      console.log(data.shrooms[0]);
+    });
+  });
 </script>
