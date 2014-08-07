@@ -1,15 +1,33 @@
 
 <div class="content">
-    <div id="inventar"> 
-        <div id='basket'><img src="/images/basket.png"></div>
-        <div id='howmany'></div>
-    </div>
-    <div id="text" class="center">text1</div>
-    <form class="FirstForm"></form>
+    <div id="text" class="center">Земную жизнь пройдя до половины,
+                      Я очутился в сумрачном лесу,</div>
+    <form class="FirstForm">
+        <select id="hours">
+            <option  value="0.5">0.5 часов</option>
+            <option  value="1">1 час</option>
+            <option  value="1.5">1.5 часа</option>
+            <option  value="2">2 часа</option>
+        </select>
+    </form>
     <div class="buttons center">
-        <div class="mainButton center">
-            <div id="butGather">Осмотреться вокруг</div>
+        <div id="butLook" class="button center">Осмотреться вокруг</div>
+        <div id="butGather" class="button center hide">Собирать грибы</div>
+        <div id="progress" class="progress center hide"></div>
+        <div id="butGive" class="button center hide">Приманить белку</div>
+        <div id="eat_hire" class="center hide">
+            <div id="butHire" class="button inline">Нанять белку</div>
+            <div id="butEat" class="button inline">Попробовать гриб</div>
         </div>
+    </div> 
+</div>
+
+
+
+
+<div id="inventar"> 
+    <div id='basket'>
+        <span id="howmany"></span>
     </div>
 </div>
 

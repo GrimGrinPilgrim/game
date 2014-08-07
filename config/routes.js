@@ -44,6 +44,10 @@ module.exports.routes = {
   '/search': {
     controller: 'ShroomController',
     action: 'search'
+  },
+
+  '/effect1' : {
+    view: 'home/circal_1/first trip eff'
   }
 
   /*

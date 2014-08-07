@@ -1,171 +1,167 @@
 
+
 var fateMush = 0
 var lifeInForest = {
     hour:0,
-    basketLength: function(){
-        var a = lifeInForest.interface.basket.mushrooms.length
-        $('#howmany').text(''+a+'') //текст отображающий кол-во грибов
-        return a;
-        },
-    mushroomsForClick:5,
-    StartV:2000,
-    
-    // убрала счетчик 
-    gatherClickNumber:0,
-    // убрала счетчик giveClickNumber
-    // убрала счетчик hireSquirrelNumber
+    StartV:8000,
     eatClickNumber: 0,
     
     interface: {
         buttons:{
-            mainButton: $("#butGather"),
-            alterGive:$("<div/>",{"id":"butGive","class":"firstAlter"}),
-            alterEat:$("<div/>",{"id":"butEat","class":"firstAlter"})
+            lookButton: $("#butLook"),
+            gatherButton: $("#butGather"),
+            giveButton: $("#butGive"),
+            eat_hireButton: $("#eat_hire"),
+            hireButton: $("#butHire"),
             },
-        inscriptionButton:['Собирать грибы','Приманить белку','Съесть случайный гриб','Нанять белку собирать орехи'],
         forms:{
-            hourGather:$('<input/>',{
-                 "type":"number","value":"", "id":"hours", "placeholder":"сколько часов собираем грибы?"
-                }),
-            progressbar: $("<div/>",{"id":"progress","class":"progress"})
+            hourGather:$('#hours'),
+            progressbar: $("#progress")
                 },
         basket:{
-            mushrooms:[],
-            berry:0,
-            nut:0  
+            mushrooms:[]  
             }
         },
+
     texts: {
         blockText:$('#text'),
         textSecond:'text2',
         textGather:'собирать'
         },
-    ShroomsParametrs:{
-        type:["съедобные","несъедобные","галлюценогенные"],
-        ccal:[10,50,150,200],
-        effects:['переварили','не переварили',['A','B','C']]    
-            },
-    randomMushroomSet: function(){
-        var fateDesigion=lifeInForest.fate.simple(lifeInForest.ShroomsParametrs.type.length-1,0);
-        var mushroomRandom={
-            type:lifeInForest.ShroomsParametrs.type[fateDesigion],
-            ccal:lifeInForest.ShroomsParametrs.ccal[lifeInForest.fate.simple(3,0)],
-            effects:lifeInForest.ShroomsParametrs.effects[fateDesigion]
-            }
-        return mushroomRandom; // функция, передающая параметры для запуска рандома и возвращающая объект "гриб" с полученными параметрами
-        },  
-        
-    /*______________________________________________________Служебные функции___________________________________________________________*/
+
+    circalParametrs:{
+        numero:[0,1,2,3,4,5,6,7,8,9],
+        First:{
+            MaxShroom:5,
+            PayForSquirrel:10
+        }
+    },
+    SetShrooms:[],
     
-    fate:{
-        simple:function(max,min){
-            return Math.floor(Math.random()*(max-min+1)+min)
-            }
+        
+    /*______________________________________________________Настройки параметров___________________________________________________________*/
+
+    mushroomsForClick: function(circMax){
+        var mush = Math.floor(Math.random()*(circMax-2)+2);
+        return mush;
+    },
+    basketLength: function(){
+        var a = lifeInForest.interface.basket.mushrooms.length
+        $('#howmany').text(''+a+'');
+        return a;
         },
+    getCircalShrooms:function(circal) {
+        $.ajax({
+            url:'/circal/'+circal, 
+            method: 'get',
+            dataType: 'json',
+            success: function(data) {
+                lifeInForest.SetShrooms = data.shrooms;
+            }
+        });
+    },
+    /*______________________________________________________Служебные функции___________________________________________________________*/
+    randomMushroomSet: function(){
+        var mushroomRandom = Math.floor(Math.random()*lifeInForest.SetShrooms.length);
+        var mushroom = lifeInForest.SetShrooms[mushroomRandom]
+        return mushroom; 
+        },  
     giveOneMushroom: function(){
-        var Mush = lifeInForest.randomMushroomSet(); //переменная гриба с параметрами
+        var Mush = lifeInForest.randomMushroomSet(); 
         lifeInForest.interface.basket.mushrooms.push(Mush);
         },
+    deleteM: function(){
+        var randomMushroom = Math.floor(Math.random()* lifeInForest.basketLength())
+                    fateMush=lifeInForest.interface.basket.mushrooms.splice(randomMushroom,1)
+                    console.log(lifeInForest.interface.basket.mushrooms.length);
+        lifeInForest.basketLength()
+    },
     
-    /*___________________________________________________________________________________________________________________________________*/
-    firstClick: function(){
-        lifeInForest.interface.buttons.mainButton.one("click", function(){//заменила on на one
-            lifeInForest.basketLength();
+    
+    /*_______________________________________________________Игровые события____________________________________________________________*/
+    firstClick: function(){//клик осмотреться
+        lifeInForest.interface.buttons.lookButton.one("click", function(){
+            lifeInForest.interface.buttons.lookButton.hide();
+            lifeInForest.interface.buttons.gatherButton.show();
             lifeInForest.texts.blockText.html(''+lifeInForest.texts.textSecond+'');
-            lifeInForest.interface.buttons.mainButton.html(''+lifeInForest.interface.inscriptionButton[0]+'');
-            lifeInForest.interface.forms.hourGather.appendTo("form");
-            $('#inventar').css("display","block");// показываю кол-во имеющихся грибов, полсе первого клика "Собрать"
-            $('#howmany').on('mouseenter', function(){
-                $(this).closest('#inventar').css({'width':'1000px'})
-            })
-            $('#howmany').on('mouseleave', function(){
-                $(this).closest('#inventar').css({'width':'71px'})
-            })
+            lifeInForest.interface.forms.hourGather.show();
+            $('#inventar').show();
+
+            lifeInForest.basketLength();
             lifeInForest.mainButtonEvent();
+            lifeInForest.getCircalShrooms(lifeInForest.circalParametrs.numero[0]);
+
             })
         },
-    mainButtonEvent: function(){
-        lifeInForest.interface.buttons.mainButton.on("click", function(){   
-            lifeInForest.hour = $("#hours").val();      
-            if (lifeInForest.hour <=0 || lifeInForest.hour > 12 ){
-                alert("укажите число больше 0 и меньше 12");
-                }
-            else{lifeInForest.eventGather.progressEvents();//заменила lifeInForest.mushroomsInBasket
-                if (lifeInForest.gatherClickNumber == 0){
-            setTimeout(lifeInForest.giveAndEat.showAlterButtons,lifeInForest.StartV*lifeInForest.hour);
-            lifeInForest.gatherClickNumber = 1;
-            }
-                
-            }
-            })
-        },
-    // сократила код сменив обработчик событий: убрала clickCounterMain, eventShowHours
-    eventGather: {
+    mainButtonEvent: function(){//клик собирать
+        lifeInForest.interface.buttons.gatherButton.on("click", function(){   
+            lifeInForest.hour = $("#hours").val(); 
+            lifeInForest.eventGather.progressEvents();     
+        })
+        .one("click", function(){
+            setTimeout(lifeInForest.giveAndEat.showGiveButtons,lifeInForest.StartV*lifeInForest.hour);
+        });
+    },
+    eventGather: {//процесс сбора
         mushroomsInBasket:function(){
-                        for (i=0; i< Math.floor(lifeInForest.hour*lifeInForest.mushroomsForClick); i++){
-                            lifeInForest.giveOneMushroom();
-                            }
-                    },
-                    //удалила функцию showProgress
-        progressEvents: function(){
-            lifeInForest.interface.buttons.mainButton.css('display','none');
-            lifeInForest.interface.forms.progressbar.appendTo(".mainButton")
-            lifeInForest.interface.forms.progressbar.animate({width: "200px"},lifeInForest.StartV*lifeInForest.hour,'linear',function(){                    lifeInForest.eventGather.resetmainButton();
-                })
-            },
-        resetmainButton: function(){
-            lifeInForest.interface.buttons.mainButton.css('display','block');
-            lifeInForest.interface.forms.progressbar.remove();
-            lifeInForest.interface.forms.progressbar.removeAttr('style');
-            lifeInForest.eventGather.mushroomsInBasket();//вынула запуск из lifeInForest.mainButtonEvent
-            console.log('у вас в корзине '+lifeInForest.basketLength()+' грибов')
+            var myShroom = lifeInForest.mushroomsForClick(lifeInForest.circalParametrs.First.MaxShroom);
+            for (i=0; i< Math.floor(lifeInForest.hour*myShroom); i++){
+                lifeInForest.giveOneMushroom();
             }
         },
+        progressEvents: function(){
+            lifeInForest.interface.buttons.gatherButton.hide();
+            lifeInForest.interface.forms.progressbar.show();
+            lifeInForest.interface.forms.progressbar.animate({width: "200px"},lifeInForest.StartV*lifeInForest.hour,'linear',function(){              
+                lifeInForest.eventGather.resetmainButton();
+            });
+        },
+        resetmainButton: function(){
+            lifeInForest.interface.buttons.gatherButton.show();
+            lifeInForest.interface.forms.progressbar.hide();
+            lifeInForest.interface.forms.progressbar.removeAttr('style');
+            lifeInForest.eventGather.mushroomsInBasket();
+            lifeInForest.basketLength();
+        }
+    },
     
     
-    giveAndEat:{//переименовала firstAlter
-        showAlterButtons: function(){
-            lifeInForest.interface.buttons.alterGive.appendTo(".buttons");
-            lifeInForest.interface.buttons.alterGive.html(''+lifeInForest.interface.inscriptionButton[1]+'');
-            lifeInForest.interface.buttons.alterEat.appendTo(".buttons");
-            lifeInForest.interface.buttons.alterEat.html(''+lifeInForest.interface.inscriptionButton[2]+'');
+    giveAndEat:{
+        showGiveButtons: function(){
+            lifeInForest.interface.buttons.giveButton.show();
             lifeInForest.giveAndEat.callAction();
-            lifeInForest.giveAndEat.eatAction.eatingProcess();
+            /*lifeInForest.giveAndEat.eatAction.eatingProcess();*/
             },
         callAction:function(){// все события на первый клик приманить
-                lifeInForest.interface.buttons.alterGive.one("click", function(){
+                lifeInForest.interface.buttons.giveButton.one("click", function(){
                     lifeInForest.deleteM();
-                    lifeInForest.interface.buttons.alterGive.css('background-color','#CFC')
-                    lifeInForest.interface.buttons.alterGive.html(''+lifeInForest.interface.inscriptionButton[3]+'')
-                
-                    //console.log('у вас в корзине '+lifeInForest.basketLength()+' грибов')
+                    lifeInForest.interface.buttons.giveButton.hide();
+                    lifeInForest.interface.buttons.eat_hireButton.show();
                     lifeInForest.giveAndEat.giveAction.hireSquirrel();
                 })
             },
-            //убрала myAlter, calculationGivingMushroom, clickCounterGive, giveButtonEvent, deleteOneMusroom, changeButtonGive
         giveAction:{
             hireSquirrel:function(){
-                lifeInForest.interface.buttons.alterGive.on('click', function(){
-                if(lifeInForest.basketLength()>=10){
+                lifeInForest.interface.buttons.hireButton.on('click', function(){
+                if(lifeInForest.basketLength()>=lifeInForest.circalParametrs.First.PayForSquirrel){
                     lifeInForest.giveAndEat.giveAction.counterHireSquirrel();
                     setTimeout(lifeInForest.giveAndEat.giveAction.ThirtySecondMusroom,5000);
                     }
-                else { alert('У вас не хватает грибов')};
+                else { alert('У тебя не хватает грибов')};
                 })
             },
             counterHireSquirrel: function(){
-                for(i=0;i<=10;i++){// поменяла 0 на 1
+                for(i=0;i<=lifeInForest.circalParametrs.First.PayForSquirrel;i++){
                         lifeInForest.deleteM();
                         };
+                lifeInForest.circalParametrs.First.PayForSquirrel = lifeInForest.circalParametrs.First.PayForSquirrel+5
                 },
             ThirtySecondMusroom: function (){
-                for (i=0; i<1; i++){ //линейное увеличение
-                        lifeInForest.giveOneMushroom();
-                            }
-            console.log('у вас в корзине '+lifeInForest.basketLength()+' грибов');
-            setTimeout(lifeInForest.giveAndEat.giveAction.ThirtySecondMusroom, 5000);
-                }
-            },
+                for (i=0; i<1; i++){ lifeInForest.giveOneMushroom();}
+                lifeInForest.basketLength()
+                setTimeout(lifeInForest.giveAndEat.giveAction.ThirtySecondMusroom, 5000);
+            }
+        },
             
         eatAction: {
             eatingProcess: function(){
@@ -189,7 +185,6 @@ var lifeInForest = {
                     lifeInForest.giveAndEat.eatAction.fanFate(fateMush[0].type);
                     break
                 }
-            console.log(fateMush[0].type);
             },
             goodFate: function(typeMushroom){
                 alert('вы съели '+typeMushroom+' гриб и '+fateMush[0].effects+' его');
@@ -209,20 +204,7 @@ var lifeInForest = {
 */      }
             
     },
-    deleteM: function(){
-        var randomMushroom = Math.floor(Math.random()* lifeInForest.basketLength())
-                    fateMush=lifeInForest.interface.basket.mushrooms.splice(randomMushroom,1)
-                    console.log(lifeInForest.interface.basket.mushrooms.length);
-        lifeInForest.basketLength()
-        
-        },
-    fate:{
-        simple:function(max,min){
-            return Math.floor(Math.random()*(max-min+1)+min)
-            }
-        }
-    }
-
+}
 lifeInForest.firstClick();
 
 

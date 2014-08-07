@@ -7,10 +7,14 @@ html, body{
     padding:0;
     background-image:url(/images/forest.jpg);
     background-repeat:no-repeat;
-    background-size:cover;
+    background-size: cover;
     }
+#text{font-family: 'Underdog', cursive;}
 .content{
-    margin-top:20%;
+    background: rgba(255,255,255,0.2);
+    padding: 2%;
+    width: 50%;
+    margin: 0 auto;
     font-family:Arial, Helvetica, sans-serif;
     font-size:16px;
     }
@@ -22,27 +26,21 @@ html, body{
 /*кнопки*/
 
 .buttons{ width:500px;}
-.mainButton{ 
+.buttons *{ cursor: pointer;}
+.button{ 
     width:200px;
     height:25px;
     margin-top:20px;
     background-color:#FFF;
     padding-top:8px;
     }
+.hide{display: none;}
+.inline{display: inline-block;}
 .progress{width:0px;
     height:35px;
-    margin-top:-10px;
-    background-color:#006;
-    }
-#butGather{
-    cursor:pointer;
-    }
-.firstAlter{width:150px;
     margin-top:20px;
-    padding-top:8px;
-    height:50px;
-    background-color:#063;}
-#butGive{float:right;}
+    background-color:#000;
+    }
 
 /*форма*/
 
@@ -52,26 +50,31 @@ form{
     margin-top:10px;
     }
 #hours{
-    width:270px;
     margin-top:20px;
     margin:0 auto;
     opacity:1;
+    display: none;
     -webkit-animation: appearance 2s;
     animation: appearance 2s; }
+
 #inventar{
     position:absolute;
     display:block;
-    width: 71px;
+    width: 100%;
+    background-color: rgba(0,0,0,0.3);
     height: 71px;
-    background-color: #000;
-    left: 20px;
-    bottom: 20px;
-    border-radius: 20px;
+    left: 0px;
+    bottom: 0px;
     display: none;
     -webkit-transition: 0.5s ease;
     }
-#basket{float: left; position: absolute;z-index: 1;}
-#howmany{position: absolute; z-index: 2; text-align: center; top: 35px; width: 71px; height: 71px;}
+#basket{position: absolute; 
+    text-align: center; 
+    width: 62px; 
+    height: 71px; 
+    background-image:url(/images/basket.png);}
+#howmany{position: absolute;
+    top: 35px;}
 
     
 /*анимация*/    
