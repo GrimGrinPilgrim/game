@@ -1,0 +1,362 @@
+<style>
+  body {margin: 0;
+    padding: 0;
+    width: 100%;
+    height: 100%;
+    overflow: hidden;
+  }
+  #video{ width: 100%;
+    margin-top: 0%;
+    opacity: 1;}
+  canvas{ position: absolute;
+    left: 0;
+    top: 0;
+    opacity: 0;}
+</style>
+<canvas id="canvas"></canvas>
+<video id="video" autoplay muted>
+  <source src="trips/leaf/leaf.ogv" type='video/ogg; codecs="theora, vorbis"'>
+  <source src="trips/leaf/leaf.webm" type='video/webm'>
+  <source src="trips/leaf/leaf.mp4" type='video/mp4'>
+</video>
+
+<script>
+    var myVideo=document.getElementById("video");
+    
+    $(document).ready(function(){
+      myVideo.setAttribute("ontimeupdate", "dontharry();")
+    });
+    var dontharry = function(){
+      if (myVideo.currentTime>=5) {myVideo.playbackRate = 0.5}
+    };
+  myVideo.onended = function(e) {
+    console.log(myVideo.currentTime)
+    myVideo.playbackRate = 1
+    myVideo.play();
+    $('canvas').css('opacity','1')
+    var r1 = Math.floor(Math.random()*255)
+    var r2 = Math.floor(Math.random()*255)
+    var g1 = Math.floor(Math.random()*255)
+    var g2 = Math.floor(Math.random()*255)
+    var b1 = Math.floor(Math.random()*255)
+    var b2 = Math.floor(Math.random()*255)
+    console.log(r1,r2,g1,g2,b1,b2);
+    init(r1,r2,g1,g2,b1,b2);
+  };
+
+
+(function() {
+    var GameTime = function() {
+        this.delta = 0;
+        this.elapsed = 0;
+        this.now = GameTime.getTime();
+        this.start = GameTime.getTime();
+    };
+
+    GameTime.prototype.update = function() {
+        var now = GameTime.getTime();
+
+        this.elapsed = now - this.start;
+        this.delta = now - this.now;
+
+        this.now = now;
+    };
+
+    GameTime.getTime = function() {
+        return (new Date().getTime() / 1000);
+    };
+
+    window.GameTime = GameTime;
+})();
+////////////////////////////////////////////////////////////
+
+    var canvas, ctx, particles = [];
+var gametime = new GameTime();
+
+var settings = {}
+
+//window.addEventListener('load', init, false);
+window.addEventListener('resize', resizeHandler, false);
+
+function init(r1,r2,g1,g2,b1,b2) {
+  settings = {
+    
+
+    attract: {
+        particles: 25,
+        color: [r1, g1, b1],
+        radius: 100,
+        strength: 100,
+        freeze: false,
+        rad:Math.random()*(50 - 28) + 28
+    },
+
+    repel: {
+        particles: 20,
+        color: [r2, g2, b2],
+        radius: 300,
+        strength: 100,
+        freeze: false,
+        rad:Math.random()*(30 - 10) + 10
+    },
+
+    drawLines: false,
+    elasticity: 0.8,
+    friction: 0.02,
+    gravity: 0
+};
+console.log(settings.attract.color)
+console.log(settings.repel.color)
+    canvas = document.getElementById('canvas');
+    canvas.addEventListener('click', clickHandler, false);
+
+    ctx = canvas.getContext('2d');
+
+    resizeHandler();
+    reset();
+    render();
+}
+
+function addParticle(prop, behavior) {
+    var p = new Particle(canvas, ctx, gametime);
+
+    p.position.x = Math.floor(Math.random() * canvas.width);
+    p.position.y = Math.floor(Math.random() * canvas.height);
+    p.rad = settings[prop].rad
+    p.behavior = behavior;
+    p.color = settings[prop].color;
+    p.drawLine = settings.drawLines;
+    p.elasticity = settings.elasticity;
+    p.freeze = settings[prop].freeze;
+    p.friction = settings.friction;
+    p.gravity = settings.gravity;
+    p.radius = settings[prop].radius || 0;
+    p.strength = settings[prop].strength || 0;
+
+    /*p.velocity.x = Math.random() * 30;
+    p.velocity.y = Math.random() * 2 - 1;*/
+
+    particles.push(p);
+}
+
+function render() {
+    var i;
+
+    requestAnimationFrame(render);
+    gametime.update();
+
+    ctx.globalAlpha = 0.1;
+
+    ctx.clearRect(0, 0, canvas.width, canvas.height);
+    ctx.fillRect(0, 0, canvas.width, canvas.height);
+
+    ctx.globalCompositeOperation = 'lighter';
+
+    i = particles.length;
+    while(i--) particles[i].update(particles);
+
+    i = particles.length;
+    while(i--) particles[i].render(particles);
+}
+
+function explode(pos, rad) {
+    var i = particles.length;
+    var angle, dist, strength, p;
+
+    while(i--) { p = particles[i];
+        angle = Point.getAngle(pos, p.position);
+        dist = Point.getDistance(pos, p.position);
+        strength = (rad / dist) * 50;
+
+        p.velocity.x += Math.cos(angle) * strength;
+        p.velocity.y += Math.sin(angle) * strength;
+    }
+}
+
+function resizeHandler() {
+    canvas.height = window.innerHeight;
+    canvas.width = window.innerWidth;
+}
+
+function clickHandler(e) {
+    explode(new Point(e.clientX, e.clientY), window.innerWidth);
+}
+
+function reset() {
+    particles = [];
+    var i;
+
+    i = settings.attract.particles;
+    while(i--) addParticle('attract', ParticleBehavior.ATTRACT);
+
+    i = settings.repel.particles;
+    while(i--) addParticle('repel', ParticleBehavior.REPEL);
+}
+
+
+/* OBJECTS */
+
+function Particle(canvas, ctx, gametime) {
+    this.canvas = canvas;
+    this.canvas.ctx = ctx;
+    this.gametime = gametime;
+
+    /*this.behavior = ParticleBehavior.ATTRACT;*/
+    /*this.color = [255, 0, 255];*/
+   /* this.drawLine = true;*/
+   /* this.elasticity = 1;
+    this.freeze = false;
+    this.friction = 0.001;
+    this.gravity = 0;*/
+    this.position = new Point();
+    this.velocity = new Point(0, 0);
+    /*this.radius = 10;
+    this.strength = 0.5;*/
+
+    this._drawn = [];
+}
+
+Particle.prototype.update = function(particles) {
+    var p, dist, angle;
+
+    if(!this.freeze) {
+        this.velocity.x /= (this.friction + 1);
+        this.velocity.y /= (this.friction + 1);
+        this.velocity.y += this.gravity * this.gametime.delta;
+        this.position.x += this.velocity.x * this.gametime.delta;
+        this.position.y += this.velocity.y * this.gametime.delta;
+    }
+
+    var i = particles.length;
+
+    while(i--) { p = particles[i];
+        if(this === p) continue;
+        if(this.behavior === ParticleBehavior.ATTRACT && p.behavior === ParticleBehavior.REPEL && this.radius === p.radius) continue;
+        if(this.behavior === ParticleBehavior.REPEL && p.behavior === ParticleBehavior.ATTRACT && this.radius === p.radius) continue;
+
+        dist = Point.getDistance(this.position, p.position);
+        angle = Point.getAngle(this.position, p.position);
+
+        if(dist < this.radius) {
+            var strength = (this.radius / dist) * this.strength * this.gametime.delta;
+            var xv = (Math.sin(angle) * 0.1) * strength;
+            var yv = (Math.cos(angle) * 0.5) * strength;
+
+            if(this.behavior === ParticleBehavior.ATTRACT) {
+                if(!this.freeze) {
+                    this.velocity.x += xv;
+                    this.velocity.y += yv;
+                }
+
+                if(!p.freeze) {
+                    p.velocity.x -= xv;
+                    p.velocity.y -= yv;
+                }
+            } else if(this.behavior === ParticleBehavior.REPEL) {
+                if(!this.freeze) {
+                    this.velocity.x -= xv;
+                    this.velocity.y -= yv;
+                }
+
+                if(!p.freeze) {
+                    p.velocity.x += xv;
+                    p.velocity.y += yv;
+                }
+            }
+        }
+    }
+
+    if(this.position.x <= 0) {
+        this.position.x = 100;
+        this.velocity.x = -this.velocity.x * this.elasticity * this.gametime.delta;
+    }
+
+    if(this.position.x > canvas.width) {
+        this.position.x = canvas.width-100;
+        this.velocity.x = -this.velocity.x * this.elasticity * this.gametime.delta;
+    }
+
+    if(this.position.y <= 0) {
+        this.position.y = 10;
+        this.velocity.y = -this.velocity.y * this.elasticity * this.gametime.delta;
+    }
+
+    if(this.position.y > canvas.height) {
+        this.position.y = canvas.height-10;
+        this.velocity.y = -this.velocity.y * this.elasticity * this.gametime.delta;
+    }
+
+    this._drawn.length = 0;
+};
+
+Particle.prototype.render = function(particles) {
+    var p, dist, strength;
+    var i = particles.length;
+
+    this.canvas.ctx.fillStyle = 'rgb( ' + this.color[0] + ',' + this.color[1] + ',' + this.color[2] + ')';
+    this.canvas.ctx.globalAlpha = 0.5;
+
+    this.canvas.ctx.beginPath();
+    this.canvas.ctx.arc(this.position.x, this.position.y, this.rad, 0, Math.PI * 2, true);
+    this.canvas.ctx.fill();
+
+    this.canvas.ctx.lineWidth = 0.1;
+
+    while(this.drawLine && i--) { p = particles[i];
+        if(this === particles[i]) continue;
+      /*  if(this.behavior === ParticleBehavior.IDLE && p.behavior === ParticleBehavior.IDLE) continue;*/
+
+        dist = Point.getDistance(this.position, p.position);
+
+        if(!this.radius || dist > this.radius) continue;
+        if(p._drawn.indexOf(this) >= 0) continue;
+
+        if(this.color !== p.color) {
+            r = Math.floor((this.color[0] + p.color[0]) * 0.1);
+            g = Math.floor((this.color[1] + p.color[1]) * 0.2);
+            b = Math.floor((this.color[2] + p.color[2]) * 0.5);
+
+            this.canvas.ctx.strokeStyle = 'rgb(' + r + ',' + g + ',' + b + ')';
+        } else {
+            this.canvas.ctx.strokeStyle = 'rgb(' + this.color[0] + ',' + this.color[1] + ',' + this.color[2] + ')';
+        }
+
+        strength = 1 - (dist / this.radius);
+
+        this.canvas.ctx.globalAlpha = strength;
+
+        this.canvas.ctx.beginPath();
+        this.canvas.ctx.moveTo(this.position.x, this.position.y);
+        this.canvas.ctx.lineTo(particles[i].position.x, particles[i].position.y);
+        this.canvas.ctx.stroke();
+
+        this._drawn.push(p);
+    }
+};
+
+function Point(x, y) {
+    this.x = x || 0;
+    this.y = y || 0;
+}
+
+Point.getDistance = function(p1, p2) {
+    var xd = p2.x - p1.x;
+    var yd = p2.y - p1.y;
+
+    return Math.sqrt(xd * xd + yd * yd);
+};
+
+Point.getAngle = function(p1, p2) {
+    var xd = p2.x - p1.x;
+    var yd = p2.y - p1.y;
+
+    return Math.atan2(yd, xd);
+};
+
+var ParticleBehavior = {
+    ATTRACT: 1,
+    REPEL: 2
+};
+
+</script>
+  

@@ -21,10 +21,7 @@ module.exports = {
   	/* e.g.
   	nickname: 'string'
   	*/
-    ,
-    toJSON: function(){
-      return { name:this.name, id:this.id }
-    }
+    
     
   }
 
