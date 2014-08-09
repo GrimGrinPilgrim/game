@@ -80,7 +80,8 @@ module.exports = {
           what:req.param('what'), 
           addDiscription:req.param('addDiscription'),
           type_id:req.param('type_id'),
-          circal_id:req.param('circal_id')
+          circal_id:req.param('circal_id'),
+          recognition:req.param('recognition')
         },
         function(err, shroom){
     		console.log(err);

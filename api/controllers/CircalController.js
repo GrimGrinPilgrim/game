@@ -47,7 +47,7 @@ module.exports = {
 
     'find': function(req,res,next){
       Circal.findOne(req.param('id')).done(function(err, circal){
-        Shroom.query("select shroom.name as name, shroom.id as id, t.name as type from shroom join shroomtype t on shroom.type_id = t.id where shroom.circal_id = " + req.param('id'), function(err, shrooms) {
+        Shroom.query("select shroom.name as name, shroom.recognition as recognition, shroom.id as id, t.name as type from shroom join shroomtype t on shroom.type_id = t.id where shroom.circal_id = " + req.param('id'), function(err, shrooms) {
           if(req.wantsJSON)
             res.json({ circal: circal, shrooms: shrooms });
           else

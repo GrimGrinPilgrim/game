@@ -9,10 +9,21 @@ var parameters = {
     },
     myShrooms:[
         {
-            Галерина_моховая: 0,
-            Белый_гриб_обыкновенный: 0,
-            Маслёнок_желтый: 0,
-            Колокольный_засранец: 0
+            Галерина_моховая: {
+                open:false,
+                count:0
+            },
+            Белый_гриб_обыкновенный: {
+                open:false,
+                count:0
+            },
+            Маслёнок_желтый: {
+                open:false,
+                count:0
+            },
+            Колокольный_засранец: {
+                open:false,
+                count:0}
         },
         {}
     ],
@@ -33,12 +44,7 @@ var parameters = {
         texts:[$('#text1'),$('#text2'),$('#text3'),$('#text4'),$('#text5'),$('#text6'),$('#text7'),$('#text8'),$('#text9'),$('#text10')]
     },
     circalParametrs:[
-        {   openMush:{
-                Галерина_моховая: false,
-                Белый_гриб_обыкновенный: false,
-                Маслёнок_желтый: false,
-                Колокольный_засранец: false
-            },
+        {   
             MaxShroom:79,
             PayForLureSquirrel:20,
             PayForSquirrel:10
@@ -135,16 +141,16 @@ var FillBasket = function(circ){
                 var a = rand();
                 switch (true){
                     case a < 0.5: parameters.basket.mushrooms[0].push(parameters.SetShrooms[circ][0])
-                    parameters.myShrooms[0].Галерина_моховая++;
+                    parameters.myShrooms[0].Галерина_моховая.count++;
                     break
                     case a >= 0.5 && a< 0.6: parameters.basket.mushrooms[0].push(parameters.SetShrooms[circ][1])
-                    parameters.myShrooms[0].Белый_гриб_обыкновенный++;
+                    parameters.myShrooms[0].Белый_гриб_обыкновенный.count++;
                     break
                     case a >= 0.6 && a< 0.7:parameters.basket.mushrooms[0].push(parameters.SetShrooms[circ][2])
-                    parameters.myShrooms[0].Маслёнок_желтый++;
+                    parameters.myShrooms[0].Маслёнок_желтый.count++;
                     break
                     case a >= 0.7 && a< 1: parameters.basket.mushrooms[0].push(parameters.SetShrooms[circ][3])
-                    parameters.myShrooms[0].Колокольный_засранец++;
+                    parameters.myShrooms[0].Колокольный_засранец.count++;
                 }
             }
         break
@@ -152,21 +158,24 @@ var FillBasket = function(circ){
     basketLength();
     console.log(parameters.basket.mushrooms, parameters.myShrooms)
 }
-var deleteRandSroom = function(circ){
+var deleteRandSroom = function(circ,action){
     var Shroom = Math.floor(Math.random() * basketLength());
     switch (circ){
         case 0:  
             var fateMush = parameters.basket.mushrooms[0].splice(Shroom,1);
             switch (fateMush[0].name){
-                case "Галерина моховая":parameters.myShrooms[0].Галерина_моховая--;
+                case "Галерина моховая":parameters.myShrooms[0].Галерина_моховая.count--;
                 break
-                case "Белый гриб обыкновенный":parameters.myShrooms[0].Белый_гриб_обыкновенный--;
+                case "Белый гриб обыкновенный":parameters.myShrooms[0].Белый_гриб_обыкновенный.count--;
                 break
-                case "Маслёнок желтый":parameters.myShrooms[0].Маслёнок_желтый--;
+                case "Маслёнок желтый":parameters.myShrooms[0].Маслёнок_желтый.count--;
                 break
-                case "Колокольный засранец":parameters.myShrooms[0].Колокольный_засранец--;
+                case "Колокольный засранец":parameters.myShrooms[0].Колокольный_засранец.count--;
             }
         break
+    }
+    if (action == 'eat') {
+        return fateMush;
     }
     console.log(fateMush)
     basketLength();
@@ -176,7 +185,7 @@ var TryMush_LureSquirrel = function(circ){
     parameters.interface.texts[1].hide();
     parameters.interface.texts[2].show();
 
-    //TryMush();
+    TryMush(circ);
     LureSquirrel(circ);
     parameters.events.eventGather = false;
 }
@@ -184,18 +193,63 @@ var TryMush_LureSquirrel = function(circ){
 var LureSquirrel = function(circ){
     parameters.interface.buttons.lureButton.on('click', function(){
     
-//change back
+//change back!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
         if (parameters.basket.mushrooms[0].length >= parameters.circalParametrs[0].PayForLureSquirrel){
             parameters.interface.texts[2].hide();
             parameters.interface.texts[3].show();
             parameters.interface.buttons.lureButton.hide();
             parameters.interface.buttons.hireButton.addClass('inline');
 
-            for (var i = 0; i< parameters.circalParametrs[0].PayForLureSquirrel; i++) {deleteRandSroom(circ);}
+            for (var i = 0; i< parameters.circalParametrs[0].PayForLureSquirrel; i++) {deleteRandSroom(circ,'lure');}
         }
         else alert('У тебя не хватает грибов');
     });
 }
+var TryMush = function(circ){
+    parameters.interface.buttons.eatButton.on('click', function(){
+        if (parameters.basket.mushrooms[circ].length > 0) {
+            currentShroom = deleteRandSroom(circ,'eat');
+            Effects(circ,currentShroom);
+            //lifeInForest.giveAndEat.eatAction.MushEffects();
+        }
+        else{alert('Грибов не осталось')}
+    })
+}
+var Effects = function(circ,object){
+    Recognition(circ,object);
+    name = object[0].name
+    switch (circ){
+        case 0:  
+            switch (object[0].type){
+                case "Можно кушать" :
+                    alert('вы съели '+name+'');
+                    parameters.speed = parameters.speed - 500
+                break
+                case "Не можно кушать":
+                    alert('вы съели '+name+'');
+                    parameters.speed = parameters.speed + 10
+                break
+                case "Весело кушать":
+                    alert('вы съели '+name+'');
+                break
+            }
+        break
+    }
+}
+var Recognition = function(circ,object){
+    var name = object[0].recognition
+    var d = parameters.myShrooms[circ][''+name+'']
+    var value = parameters.myShrooms[circ][''+name+''].open
+    if(value == false) {
+        parameters.myShrooms[circ][''+name+''].open = true
+        console.log(value)}
+    else {
+          console.log(d)  
+        }
+    
 
+    //var shroom = parameters.myShrooms[0].
+    //console.log(name,d)
+}
 firstClick();
 

@@ -22,6 +22,7 @@
 		<input type="hidden" name="id" value="<%- shroom.id %>"/>
 	<% } %>
 	<input type="text" name="name" value="<%- shroom.name %>" placeholder="Название гриба"/>
+	<input type="text" name="recognition" value="<%- shroom.recognition %>" placeholder="Распознование гриба"/>
 	<select name="circal_id">
 		<% circal.forEach(function(circal){ %>
 			<option value="<%- circal.id %>" <%- (shroom.circal_id == circal.id) ? "selected" : "" %>><%- circal.numberC %></option>

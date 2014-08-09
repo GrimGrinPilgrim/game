@@ -17,7 +17,8 @@ module.exports = {
   	what: 'text',
   	addDiscription:'text',
     type_id: 'integer',
-    circal_id: 'integer'
+    circal_id: 'integer',
+    recognition: 'string'
   	/* e.g.
   	nickname: 'string'
   	*/
