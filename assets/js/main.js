@@ -45,20 +45,31 @@ var parameters = {
     },
     circalParametrs:[
         {   
-            MaxShroom:79,
+            MaxShroom:2,
+            MinShroom:2,
             PayForLureSquirrel:20,
-            PayForSquirrel:10
+            PayForSquirrel:10,
+            MushFromSquirrel:0
         },
-        {   Mush:[],
+        {   MaxShroom:79,
+            MinShroom:2,
             MaxShroom:5,
             PayForSquirrel:10
         }
     ],
+    circalCreater:[
+        {   
+            Squirrel:0
+        },
+        {   
+            Squirrel:0
+        },
+    ],
+
     events:{
         eventGather:false,
     }
 }
-
 /*______________________________________________________Настройки параметров___________________________________________________________*/
 var getCircalShrooms = function(circal) {
     $.ajax({
@@ -78,9 +89,10 @@ var basketLength = function(){
     $('#howmany').text(''+length+'');
     return length;
 }
-var mushroomsForClick = function(circMax){
-        var mush = Math.floor(Math.random()*(circMax-2)+2);
-        return mush;
+var mushroomsForClick = function(circMax,circMin){
+        var mush = Math.floor(Math.random()*(circMax-circMin)+circMin);
+        console.log(mush)
+        return mush
     }
 var rand = function(){
     a = Math.random();
@@ -100,7 +112,7 @@ var firstClick = function(){//клик осмотреться
 
         basketLength();
         Gather(circ);
-        getCircalShrooms(circ);
+        //getCircalShrooms(circ);
     });
 }
 
@@ -128,16 +140,19 @@ var showGather = {// визуальное отображение сбора гр
         parameters.interface.forms.progressbar.hide();
         parameters.interface.forms.progressbar.removeAttr('style');
 
-        FillBasket(circ);
+        FillBasket(circ,'gamer');
         if (parameters.events.eventGather === true) TryMush_LureSquirrel(circ);
     }
 }
-var FillBasket = function(circ){
-    var Shroom = mushroomsForClick(parameters.circalParametrs[circ].MaxShroom);
-
+var FillBasket = function(circ,subject){
+    if (subject=='gamer'){
+        var Shroom = mushroomsForClick(parameters.circalParametrs[circ].MaxShroom,parameters.circalParametrs[circ].MinShroom)*parameters.hour;
+        var count = Shroom}
+    if (subject=='squirrel'){
+        var count = parameters.circalParametrs[0].MushFromSquirrel}
     switch (circ){
         case 0: 
-            for(i=0;i<Shroom;i++){
+            for(i=0;i<count;i++){
                 var a = rand();
                 switch (true){
                     case a < 0.5: parameters.basket.mushrooms[0].push(parameters.SetShrooms[circ][0])
@@ -154,12 +169,16 @@ var FillBasket = function(circ){
                 }
             }
         break
+        case 1: 
+            console.log('iuiuououoiu')
+            
+        break
     }
     basketLength();
-    console.log(parameters.basket.mushrooms, parameters.myShrooms)
+    //console.log(parameters.basket.mushrooms, parameters.myShrooms)
 }
 var deleteRandSroom = function(circ,action){
-    var Shroom = Math.floor(Math.random() * basketLength());
+    var Shroom = Math.floor(Math.random() * parameters.basket.mushrooms[circ].length);
     switch (circ){
         case 0:  
             var fateMush = parameters.basket.mushrooms[0].splice(Shroom,1);
@@ -174,11 +193,12 @@ var deleteRandSroom = function(circ,action){
             }
         break
     }
+    basketLength();
     if (action == 'eat') {
         return fateMush;
     }
-    console.log(fateMush)
-    basketLength();
+    //console.log(fateMush)
+    
 }
 var TryMush_LureSquirrel = function(circ){
     parameters.interface.buttons.eat_hireButton.show();
@@ -200,6 +220,7 @@ var LureSquirrel = function(circ){
             parameters.interface.buttons.lureButton.hide();
             parameters.interface.buttons.hireButton.addClass('inline');
 
+            HireCreature(circ);
             for (var i = 0; i< parameters.circalParametrs[0].PayForLureSquirrel; i++) {deleteRandSroom(circ,'lure');}
         }
         else alert('У тебя не хватает грибов');
@@ -210,7 +231,6 @@ var TryMush = function(circ){
         if (parameters.basket.mushrooms[circ].length > 0) {
             currentShroom = deleteRandSroom(circ,'eat');
             Effects(circ,currentShroom);
-            //lifeInForest.giveAndEat.eatAction.MushEffects();
         }
         else{alert('Грибов не осталось')}
     })
@@ -223,11 +243,15 @@ var Effects = function(circ,object){
             switch (object[0].type){
                 case "Можно кушать" :
                     alert('вы съели '+name+'');
-                    parameters.speed = parameters.speed - 500
+                    parameters.circalParametrs[circ].MaxShroom ++;
+                    parameters.circalParametrs[circ].MinShroom++;
                 break
                 case "Не можно кушать":
                     alert('вы съели '+name+'');
-                    parameters.speed = parameters.speed + 10
+                    if( parameters.circalParametrs[circ].MaxShroom>1 &&parameters.circalParametrs[circ].MinShroom>1){
+                        parameters.circalParametrs[circ].MaxShroom--;
+                        parameters.circalParametrs[circ].MinShroom--;
+                    }
                 break
                 case "Весело кушать":
                     alert('вы съели '+name+'');
@@ -242,14 +266,31 @@ var Recognition = function(circ,object){
     var value = parameters.myShrooms[circ][''+name+''].open
     if(value == false) {
         parameters.myShrooms[circ][''+name+''].open = true
-        console.log(value)}
-    else {
-          console.log(d)  
-        }
-    
-
-    //var shroom = parameters.myShrooms[0].
-    //console.log(name,d)
+        //console.log(value)
+    }
 }
+var HireCreature = function(circ){
+    switch (circ){
+        case 0:  
+                var target = parameters.interface.buttons.hireButton
+            target.on('click', function(){
+                if(parameters.basket.mushrooms[circ].length>=parameters.circalParametrs[circ].PayForSquirrel){
+                    parameters.circalParametrs[0].MushFromSquirrel++;
+                    parameters.circalCreater[circ].Squirrel++;
+                    for(i=0;i<parameters.circalParametrs[circ].PayForSquirrel;i++){
+                                deleteRandSroom(circ,'squirrel')
+                            };
+                            parameters.circalParametrs[circ].PayForSquirrel=parameters.circalParametrs[circ].PayForSquirrel+5;
+                
+              }
+                        else { alert('У тебя не хватает грибов')};
+            })
+            .one('click', function(){
+                setInterval(FillBasket, 1000, circ, 'squirrel');
+            })
+        break
+    }
+}
+
 firstClick();
 
