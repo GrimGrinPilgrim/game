@@ -12,7 +12,7 @@
 <ul>
 <% shrooms.forEach(function(shroom){ %>
 
-  <li><%- shroom.name %></li>
+  <li><a  href="/shroom/edit/<%-shroom.id%>"><%- shroom.name %></a></li>
 
 <% }); %>
 </ul>

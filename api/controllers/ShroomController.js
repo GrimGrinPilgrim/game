@@ -56,7 +56,7 @@ module.exports = {
     	Shroom.findOne(req.param('id')).done(function(err, shroom){
         ShroomType.findOne(shroom.type_id, function(err, type){
           Circal.findOne(shroom.circal_id, function(err, circal){
-            res.view({circal:circal, shroom_type: type, shroom: shroom });
+            res.view({circal:circal, shroom_type: type, shroom: shroom, _layoutFile: '' });
           });
         });
     	});
@@ -81,7 +81,10 @@ module.exports = {
           addDiscription:req.param('addDiscription'),
           type_id:req.param('type_id'),
           circal_id:req.param('circal_id'),
-          recognition:req.param('recognition')
+          recognition:req.param('recognition'),
+          count:req.param('count'),
+          open:req.param('open'),
+          chanse:req.param('chanse')
         },
         function(err, shroom){
     		console.log(err);

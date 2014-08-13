@@ -48,6 +48,10 @@ module.exports.routes = {
 
   '/effect1' : {
     view: 'home/circal_1/first trip eff'
+  },
+  '/setCard': {
+    controller: 'GameController',
+    action: 'renderCardSet'
   }
 
   /*

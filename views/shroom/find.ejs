@@ -1,20 +1,22 @@
 
-
+<script type="text/javascript" src="/js/jquery.js"></script>
 <style type="text/css" >
 .maincolor {fill: #<%- shroom_type.maincolor %>;}
 .addcolor {fill: #<%- shroom_type.addcolor %>;}
 .green{color: #0f0;}
 .eachSide{position: absolute;
-    width: 30%;
+    width: 100%;
     font-family: 'Roboto', sans-serif;
     font-size:12px; 
     font-weight: 400;
     transition: all 0.4s linear;
     transform-origin: 50% 0%;
   }
-
+.addcolor:hover{fill-opacity:1;}
 #card{position: absolute;
-     width: 100%;
+    left: 35%;
+    top:2%;
+     width: 30%;
      height: 100%;
      transform-style: preserve-3d;
 }
@@ -57,14 +59,15 @@ font-family: 'Istok Web', sans-serif;
 
 #contentinfo :first-child{margin-top: 25px;}
 #contentinfo2 :first-child{margin-top: 45px;}
-#mainInfo{position: relative;
-    margin: -352px 30px 0 30px;
+#mainInfo{position: absolute;
+left: 20px;
+top: 43%;
 }
 #addInfo{position: relative;
     margin: -607px 30px 0 30px;
 }
 </style>
-<a href="/shroom/edit/<%- shroom.id %>"><button>Edit</button></a>
+<!-- <a href="/shroom/edit/<%- shroom.id %>"><button>Edit</button></a> -->
 <div id="card">
    <div id="frontSide" class="eachSide">
     <svg version="1.1" viewBox="0 0 562.287 841.89" >
@@ -96,6 +99,12 @@ font-family: 'Istok Web', sans-serif;
       c-8.798-0.996-3.248-11.229-3.91-10.603c-3.487,3.292-11.188,7.537-21.054,6.921c-3.213-0.201,5.896,1.288,14.212,17.928
       c0.503,1.008,0.925-7.707,7.962-5.449C42.017,825.18,76.897,830.588,83.973,810.054z"/>
       <g id="picShroom" opacity="0.2"><%- shroom_type.mushIcon %></g> 
+      <g id="close">
+        <path class="addcolor" fill-opacity='0.15' d="M563.858,818.424c0,3.223-2.611,5.832-5.832,5.832h-51.654c-3.222,0-5.832-2.611-5.832-5.832v-13.782
+      c0-3.222,2.611-5.831,5.832-5.831h51.654c3.221,0,5.83,2.611,5.83,5.831v13.782H563.858z"/>
+        <path fill="#706F6F" d="M537.45,819.329l-3.633-4.997l-3.631,4.997h-3.992l5.383-7.263l-5.048-6.902h3.993l3.295,4.636
+        l3.273-4.636h4.016l-5.047,6.877l5.383,7.288H537.45L537.45,819.329z"/>
+      </g>  
     </svg>
     <div id="addInfo">
       <span id="title">
@@ -105,7 +114,8 @@ font-family: 'Istok Web', sans-serif;
       <span id="contentinfo2"><%- shroom.addDiscription %></span>
     </div>
   </div> 
-</div> 
+</div>
+
         <!-- <p><h1>Последствия отравления:</h1>
         Смерть наступает в 90% случаев, через 16 дней после отравления. Если лечение началось в течение 36 часов после приёма гриба, гибель можно предотвритить. Для отравления достаточно 30 граммов — это треть/половина одного гриба.</p>
         
@@ -127,30 +137,26 @@ font-family: 'Istok Web', sans-serif;
 <!-- <img src="<%- shroom_type.icon %>"/>  --> 
 <script type="text/javascript">
   var a=function(){
-  $("#arrowLeft").hover(function(){
-    $(this).css({'stroke':'#555','stroke-width':'2'})
-    },
-  function(){
-    $(this).css({'stroke':'#7f4','stroke-width':'2'})
-  })
-  .on('click',function(){
+  $("#arrowLeft").on('click',function(){
     $("#backSide").removeClass('turnLeft')
     .addClass('turn')
     $("#frontSide").removeClass('turnRight');
   });
-  $("#arrowRight").hover(function(){
-    $(this).css({'stroke':'#555','stroke-width':'2'})
-    },
-  function(){
-    $(this).css({'stroke':'#7f4','stroke-width':'2'})
-  })
-  .on('click',function(){
+  $("#arrowRight").on('click',function(){
     $("#backSide").removeClass('turn')
     .addClass('turnLeft')
     $("#frontSide").addClass('turnRight');
   });
+  $("#close").on('click',function(){
+    parameters.interface.forms.cards.empty()
+    .hide();
+  })
+  .one('click', function(){
+    parameters.interface.icons.cards.removeClass('hide')
+        .on('click',function(){
+        parameters.interface.forms.minicards.show();
+        })
+  })
 }
 a();
 </script>
-</body>
-</html>

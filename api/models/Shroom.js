@@ -18,12 +18,29 @@ module.exports = {
   	addDiscription:'text',
     type_id: 'integer',
     circal_id: 'integer',
-    recognition: 'string'
+    recognition: 'string',
+    count: {
+      type: 'integer',
+      defaultsTo: '0'
+    },
+    open:{
+      type: 'boolean',
+      defaultsTo: 'false'
+    },
+    chanse:'integer'
   	/* e.g.
   	nickname: 'string'
   	*/
     
     
+  },
+
+  beforeUpdate: function(shroom, callback){
+    if(!shroom.count)
+      shroom.count = 0;
+    if(!shroom.open)
+      shroom.open = false;
+    callback();
   }
 
 };

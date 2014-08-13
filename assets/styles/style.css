@@ -34,8 +34,7 @@ html, body{
     background-color:#FFF;
     padding-top:8px;
     }
-.hide{display: none;}
-.inline{display: inline-block;}
+
 .progress{width:0px;
     height:35px;
     margin-top:20px;
@@ -59,24 +58,47 @@ form{
 
 #inventar{
     position:absolute;
-    display:block;
     width: 100%;
     background-color: rgba(0,0,0,0.3);
-    height: 71px;
+    height: 60px;
     left: 0px;
     bottom: 0px;
-    display: none;
     -webkit-transition: 0.5s ease;
+    padding-top: 10px;
+    display: none;
     }
-#basket{position: absolute; 
-    text-align: center; 
-    width: 62px; 
-    height: 71px; 
-    background-image:url(/images/basket.png);}
-#howmany{position: absolute;
-    top: 35px;}
+.icon{width: 55px; 
+    height: 55px; 
+    text-align: center;
+    margin-left: 20px;
+    display: inline-block;}
+#basket{
+    background-image:url(/images/iconbasket.png);
+    background-size: cover;}
+#map{
+    background-image:url(/images/iconmap.png);
+    background-size: cover;}
+#cards{
+    background-image:url(/images/iconcards.png);
+    background-size: cover;}
+#staff{
+    background-image:url(/images/iconstaff.png);
+    background-size: cover;}
+#howmany{
+    vertical-align  : middle;
+    }
+#slotcards{z-index: 98;}
+#findcard{
+z-index: 99;}
+.addWindows{position: absolute;
+left: 0px;
+top:0px;
+width: 100%;
+height: 100%;
+display: none;}
 
-    
+.hide{display: none;}
+.inline{display: inline-block;}    
 /*анимация*/    
     
 @-webkit-keyframes appearance {

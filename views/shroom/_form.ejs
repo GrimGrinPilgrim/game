@@ -21,8 +21,11 @@
 	<%if(shroom.hasOwnProperty('id')) { %>
 		<input type="hidden" name="id" value="<%- shroom.id %>"/>
 	<% } %>
+	<!-- <input type="text" name="open" value="<%- shroom.open %>" placeholder="open"/> -->
 	<input type="text" name="name" value="<%- shroom.name %>" placeholder="Название гриба"/>
+	<input type="number" name="chance" value="<%- shroom.chance %>" placeholder="Шанс выпадания"/>
 	<input type="text" name="recognition" value="<%- shroom.recognition %>" placeholder="Распознование гриба"/>
+	<!-- <input type="number" name="count" value="<%- shroom.count %>" placeholder="count"/> -->
 	<select name="circal_id">
 		<% circal.forEach(function(circal){ %>
 			<option value="<%- circal.id %>" <%- (shroom.circal_id == circal.id) ? "selected" : "" %>><%- circal.numberC %></option>

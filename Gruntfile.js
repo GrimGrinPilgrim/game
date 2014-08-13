@@ -397,11 +397,17 @@ module.exports = function (grunt) {
 
     watch: {
       api: {
+        options: {
+          livereload: true
+        },
 
         // API files to watch:
         files: ['api/**/*']
       },
       assets: {
+        options: {
+          livereload: true
+        },
 
         // Assets to watch:
         files: ['assets/**/*'],

@@ -1,13 +1,13 @@
 var parameters = {
     //currentCirc:0,
-    hour:0,
-    speed:8000,
+    hour:0,// val input - сколько собираем
+    speed:8000, //скорость анимации прогресс бара
     //eatClickNumber: 0,
-    SetShrooms:[],
+    SetShrooms:[],//грибы
     basket:{allMush:0,
             mushrooms:[[],[],[],[],[],[],[],[],[],[]]  
     },
-    myShrooms:[
+    /*myShrooms:[
         {
             Галерина_моховая: {
                 open:false,
@@ -26,7 +26,7 @@ var parameters = {
                 count:0}
         },
         {}
-    ],
+    ],*/
     interface: {
         buttons:{
             lookButton: $("#butLook"),
@@ -37,8 +37,17 @@ var parameters = {
             eatButton: $("#butEat")
         },
         forms:{
+            inventar:$('#inventar'),
             hourGather:$('#hours'),
-            progressbar: $("#progress")
+            progressbar: $("#progress"),
+            cards:$('#findcard'),
+            minicards:$('#slotcards')
+        },
+        icons:{
+            basket:$('#basket'),
+            cards:$('#cards'),
+            staff:$('#staff'),
+            map:$('#map'),
         },
         textForm: $('#text'),
         texts:[$('#text1'),$('#text2'),$('#text3'),$('#text4'),$('#text5'),$('#text6'),$('#text7'),$('#text8'),$('#text9'),$('#text10')]
@@ -47,8 +56,8 @@ var parameters = {
         {   
             MaxShroom:2,
             MinShroom:2,
-            PayForLureSquirrel:20,
-            PayForSquirrel:10,
+            PayForLureSquirrel:2,
+            PayForSquirrel:1,
             MushFromSquirrel:0
         },
         {   MaxShroom:79,
@@ -68,6 +77,7 @@ var parameters = {
 
     events:{
         eventGather:false,
+        eventTry:false,
     }
 }
 /*______________________________________________________Настройки параметров___________________________________________________________*/
@@ -81,6 +91,16 @@ var getCircalShrooms = function(circal) {
             console.log(parameters.SetShrooms)
         }
     });
+}
+var getSetMiniSroom = function(){
+     $.ajax({
+            url: '/setCard',
+            dataType: 'html',
+            success: function(data) {
+                parameters.interface.forms.minicards.append(data);
+                //BigCard();
+            }
+        });
 }
 var basketLength = function(){
     var array = parameters.basket.mushrooms
@@ -108,13 +128,15 @@ var firstClick = function(){//клик осмотреться
         parameters.interface.texts[0].hide();
         parameters.interface.texts[1].show();
         parameters.interface.forms.hourGather.show();
-        $('#inventar').show();
+        parameters.interface.forms.inventar.show();
 
         basketLength();
         Gather(circ);
-        //getCircalShrooms(circ);
+        getCircalShrooms(circ);
+        getSetMiniSroom(); 
     });
 }
+//сделать самовызывающейся
 
 var Gather =  function(circ){//клик собирать
         parameters.interface.buttons.gatherButton.on("click", function(){   
@@ -156,17 +178,18 @@ var FillBasket = function(circ,subject){
                 var a = rand();
                 switch (true){
                     case a < 0.5: parameters.basket.mushrooms[0].push(parameters.SetShrooms[circ][0])
-                    parameters.myShrooms[0].Галерина_моховая.count++;
+                    parameters.SetShrooms[circ][0].count++;
                     break
                     case a >= 0.5 && a< 0.6: parameters.basket.mushrooms[0].push(parameters.SetShrooms[circ][1])
-                    parameters.myShrooms[0].Белый_гриб_обыкновенный.count++;
+                    parameters.SetShrooms[circ][1].count++;
                     break
                     case a >= 0.6 && a< 0.7:parameters.basket.mushrooms[0].push(parameters.SetShrooms[circ][2])
-                    parameters.myShrooms[0].Маслёнок_желтый.count++;
+                    parameters.SetShrooms[circ][2].count++;
                     break
                     case a >= 0.7 && a< 1: parameters.basket.mushrooms[0].push(parameters.SetShrooms[circ][3])
-                    parameters.myShrooms[0].Колокольный_засранец.count++;
+                    parameters.SetShrooms[circ][3].count++;
                 }
+                console.log(parameters.SetShrooms)
             }
         break
         case 1: 
@@ -183,13 +206,13 @@ var deleteRandSroom = function(circ,action){
         case 0:  
             var fateMush = parameters.basket.mushrooms[0].splice(Shroom,1);
             switch (fateMush[0].name){
-                case "Галерина моховая":parameters.myShrooms[0].Галерина_моховая.count--;
+                case "Галерина моховая":parameters.SetShrooms[circ][0].count--;
                 break
-                case "Белый гриб обыкновенный":parameters.myShrooms[0].Белый_гриб_обыкновенный.count--;
+                case "Белый гриб обыкновенный":parameters.SetShrooms[circ][1].count--;
                 break
-                case "Маслёнок желтый":parameters.myShrooms[0].Маслёнок_желтый.count--;
+                case "Маслёнок желтый":parameters.SetShrooms[circ][2].count--;
                 break
-                case "Колокольный засранец":parameters.myShrooms[0].Колокольный_засранец.count--;
+                case "Колокольный засранец":parameters.SetShrooms[circ][3].count--;
             }
         break
     }
@@ -218,6 +241,7 @@ var LureSquirrel = function(circ){
             parameters.interface.texts[2].hide();
             parameters.interface.texts[3].show();
             parameters.interface.buttons.lureButton.hide();
+            parameters.interface.buttons.hireButton.removeClass('hide');
             parameters.interface.buttons.hireButton.addClass('inline');
 
             HireCreature(circ);
@@ -227,16 +251,24 @@ var LureSquirrel = function(circ){
     });
 }
 var TryMush = function(circ){
+    /*parameters.interface.buttons.eatButton.one('click', function(){
+        parameters.interface.icons.cards.removeClass('hide')
+        .on('click',function(){
+        parameters.interface.forms.minicards.show();
+        })
+    })*/
     parameters.interface.buttons.eatButton.on('click', function(){
         if (parameters.basket.mushrooms[circ].length > 0) {
             currentShroom = deleteRandSroom(circ,'eat');
+
             Effects(circ,currentShroom);
+            Recognition.OpenMiniCard(circ,currentShroom);
         }
         else{alert('Грибов не осталось')}
     })
+    
 }
 var Effects = function(circ,object){
-    Recognition(circ,object);
     name = object[0].name
     switch (circ){
         case 0:  
@@ -260,13 +292,25 @@ var Effects = function(circ,object){
         break
     }
 }
-var Recognition = function(circ,object){
-    var name = object[0].recognition
-    var d = parameters.myShrooms[circ][''+name+'']
-    var value = parameters.myShrooms[circ][''+name+''].open
-    if(value == false) {
-        parameters.myShrooms[circ][''+name+''].open = true
-        //console.log(value)
+var Recognition = {// узнали новый гриб
+    OpenMiniCard: function(circ,object){
+        var value = object[0].open
+        var minicard = object[0].recognition
+        if(value == false) {
+            $('#'+minicard+'').show();
+            Recognition.ShowBigCard(object);
+        }
+    },
+    ShowBigCard: function(object){
+        object[0].open = true;
+        parameters.interface.forms.cards.show();
+        $.ajax({
+            url: '/shroom/' + object[0].id,
+            dataType: 'html',
+            success: function(data) {
+                parameters.interface.forms.cards.append(data);
+            }
+        });
     }
 }
 var HireCreature = function(circ){
@@ -293,4 +337,26 @@ var HireCreature = function(circ){
 }
 
 firstClick();
+
+/*var BigCard = function(){
+  $('li').on('click',function(){
+    var thisCard = this.id
+    for (var i = 0; i <= parameters.SetShrooms.length; i++)
+      //for (var q = 0; q < parameters.SetShrooms[i].length; q++)
+    {console.log(thisCard,parameters.SetShrooms)
+       //console.log(parameters.SetShrooms[i][q].recognition,thisCard)
+      if (parameters.SetShrooms[i][q].recognition == thisCard){
+
+        $.ajax({
+            url: '/shroom/' + SetShrooms[i][q].id,
+            dataType: 'html',
+            success: function(data) {
+                // console.info(data);
+                parameters.interface.forms.cards.append(data);
+            }
+        });
+      }
+    } 
+  })
+}*/
 
