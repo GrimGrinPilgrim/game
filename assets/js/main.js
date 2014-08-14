@@ -89,8 +89,15 @@ var getCircalShrooms = function(circal) {
         success: function(data) {
             parameters.SetShrooms[circal] = data.shrooms;
             console.log(parameters.SetShrooms)
+            sortSetShrooms(circal);
         }
     });
+}
+var sortSetShrooms = function(circ){
+    function sort(objA,objB) {
+        return objA.chanse - objB.chanse;
+    }
+    parameters.SetShrooms[circ].sort(sort)
 }
 var getSetMiniSroom = function(){
      $.ajax({
@@ -102,6 +109,7 @@ var getSetMiniSroom = function(){
             }
         });
 }
+
 var basketLength = function(){
     var array = parameters.basket.mushrooms
     parameters.basket.allMush = array[0].concat(array[1],array[2],array[3],array[4],array[5],array[6],array[7],array[8],array[9])
@@ -111,7 +119,6 @@ var basketLength = function(){
 }
 var mushroomsForClick = function(circMax,circMin){
         var mush = Math.floor(Math.random()*(circMax-circMin)+circMin);
-        console.log(mush)
         return mush
     }
 var rand = function(){
@@ -162,44 +169,42 @@ var showGather = {// визуальное отображение сбора гр
         parameters.interface.forms.progressbar.hide();
         parameters.interface.forms.progressbar.removeAttr('style');
 
-        FillBasket(circ,'gamer');
+        FillBasket.Condition(circ,'gamer');
         if (parameters.events.eventGather === true) TryMush_LureSquirrel(circ);
     }
 }
-var FillBasket = function(circ,subject){
-    if (subject=='gamer'){
-        var Shroom = mushroomsForClick(parameters.circalParametrs[circ].MaxShroom,parameters.circalParametrs[circ].MinShroom)*parameters.hour;
-        var count = Shroom}
-    if (subject=='squirrel'){
-        var count = parameters.circalParametrs[0].MushFromSquirrel}
-    switch (circ){
-        case 0: 
-            for(i=0;i<count;i++){
-                var a = rand();
-                switch (true){
-                    case a < 0.5: parameters.basket.mushrooms[0].push(parameters.SetShrooms[circ][0])
-                    parameters.SetShrooms[circ][0].count++;
-                    break
-                    case a >= 0.5 && a< 0.6: parameters.basket.mushrooms[0].push(parameters.SetShrooms[circ][1])
-                    parameters.SetShrooms[circ][1].count++;
-                    break
-                    case a >= 0.6 && a< 0.7:parameters.basket.mushrooms[0].push(parameters.SetShrooms[circ][2])
-                    parameters.SetShrooms[circ][2].count++;
-                    break
-                    case a >= 0.7 && a< 1: parameters.basket.mushrooms[0].push(parameters.SetShrooms[circ][3])
-                    parameters.SetShrooms[circ][3].count++;
-                }
-                console.log(parameters.SetShrooms)
+var FillBasket = {
+    Condition:function(circ,subject){
+        switch (subject){
+            case 'gamer': 
+                var count = mushroomsForClick(parameters.circalParametrs[circ].MaxShroom,parameters.circalParametrs[circ].MinShroom)*parameters.hour;
+            break
+            case 'squirrel': 
+                var count = parameters.circalParametrs[circ].MushFromSquirrel
+            break
+        }
+        for (var i = 0; i < count; i++) {
+            FillBasket.GetRandMush(circ);
+        };
+    },
+    GetRandMush: function(circ){
+         var array = parameters.SetShrooms[circ]
+
+         var Rand  = Math.floor(rand()*100)
+         var FirstEl = array[0].chanse
+         for (var i=0; i < array.length; i++) {
+            if(Rand < FirstEl) {
+                parameters.basket.mushrooms[circ].push(array[i])
+                array[i].count++;
+                 basketLength();
+                console.log(parameters.basket.mushrooms[circ])
+            break
             }
-        break
-        case 1: 
-            console.log('iuiuououoiu')
-            
-        break
+            else {FirstEl = FirstEl+array[i+1].chanse}
+        }
     }
-    basketLength();
-    //console.log(parameters.basket.mushrooms, parameters.myShrooms)
 }
+   
 var deleteRandSroom = function(circ,action){
     var Shroom = Math.floor(Math.random() * parameters.basket.mushrooms[circ].length);
     switch (circ){

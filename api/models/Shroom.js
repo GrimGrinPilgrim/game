@@ -19,6 +19,7 @@ module.exports = {
     type_id: 'integer',
     circal_id: 'integer',
     recognition: 'string',
+    chanse:'integer',
     count: {
       type: 'integer',
       defaultsTo: '0'
@@ -27,7 +28,7 @@ module.exports = {
       type: 'boolean',
       defaultsTo: 'false'
     },
-    chanse:'integer'
+    
   	/* e.g.
   	nickname: 'string'
   	*/
