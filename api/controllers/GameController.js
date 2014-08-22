@@ -20,6 +20,15 @@ module.exports = {
   'renderCardSet' : function(req,res,next){
     res.view('home/circal_1/cardSet', { _layoutFile: '' });
   },
+  'renderStuffSet' : function(req,res,next){
+    res.view('home/circal_1/creatures', { _layoutFile: '' });
+  },
+  'renderMap' : function(req,res,next){
+    res.view('home/circal_1/map', { _layoutFile: '' });
+  },
+  'FirstGluck' : function(req,res,next){
+    res.view('home/circal_1/first trip eff', { _layoutFile: '' });
+  },
   /**
    * Overrides for the settings in `config/controllers.js`
    * (specific to ShroomTypeController)

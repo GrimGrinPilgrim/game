@@ -84,7 +84,8 @@ module.exports = {
           recognition:req.param('recognition'),
           count:req.param('count'),
           open:req.param('open'),
-          chanse:req.param('chanse')
+          chanse:req.param('chanse'),
+          effect:req.param('effect')
         },
         function(err, shroom){
     		console.log(err);

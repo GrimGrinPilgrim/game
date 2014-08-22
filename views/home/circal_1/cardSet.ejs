@@ -1,82 +1,24 @@
-
-  <style>
-  html,body{width: 100%;
-    height: 100%;
-    overflow: hidden;
-    margin: 0;
-    padding: 0;}
-  html,body *{padding: 0;
-    margin: 0;}
-  #MiniCards{position: absolute;
-    width: 50%;
-    height: 96%;
-    margin: 1% 25%;
-    background-color: rgba(255,255,50,0.5); 
-  }
-
-  #TitleType{position: absolute;
-    width: 20%;
-    height: 100%;
-    background: #f00;
-  }
-  #TitleGood{background: #0a0;}
-  #TitleBad{background: #a00;}
-  #TitleGluck{background: #0aa;}
-  #TitleGold{background: #aa0;}
-  .title{position: relative;
-    width: 100%;
-    height: 25%;
-  }
-
-  #SetCard{position: absolute;
-    width: 80%;
-    left: 20%;
-    height: 100%;
-    background: #0f0;
-  }
-  .hide1{display: none;}
-  
-  #good_cards{background: #0a0;}
-  #bad_cards{background: #a00;}
-  #gluck_cards{background: #0aa;}
-  #gold_cards{background: #aa0;}
-  .TypeStyle{position: absolute;
-    width: 100%;
-    height: 100%;
-    z-index: 1;
-    left: 0;
-    top: 0;}
-
-  .cardStyle{width: 50px;
-    height: 70px;
-    background: #0ff;
-    margin:5%;
-    display: inline-block;
-    }
-
-#closemini{width: 20px;
-height: 20px;
-background: #000;
-position: absolute;
-left: 100%;
-height: 100%;}
-.hide{display: none;}
-.currentType{z-index: 2;}
-  </style>
-
   <!-- div#SetCard(ul#good_cards.TypeStyle>li#good_card$.hide.cardStyle*20)+(ul#bad_cards.TypeStyle>li#bad_card$.hide.cardStyle*20)+(ul#gluck_cards.TypeStyle>li#gluck_card$.hide.cardStyle*20)+(ul#goldcards.TypeStyle>li#gold_card$.hide.cardStyle*20) -->
 <div id="MiniCards">
   <div id="TitleType">
-    <div id="TitleGood" class="title"></div>
-    <div id="TitleBad" class="title"></div>
-    <div id="TitleGluck" class="title"></div>
-    <div id="TitleGold" class="title"></div>
+    <div id="TitleGood" class="title">
+      <img src="/images/good.png" alt="d"> 
+    </div>
+    <div id="TitleBad" class="title">
+      <img src="/images/bad.png" alt="d"> 
+    </div>
+    <div id="TitleGluck" class="title">
+      <img src="/images/gluck.png" alt="d"> 
+    </div>
+    <div id="TitleGold" class="title">
+      <img src="/images/gold.png" alt="d"> 
+    </div>
   </div>
   <div id="SetCard">
-     <ul id="good_cards" class="TypeStyle currentType">
-       <li id="Belyy_grib_obyknovennyy" class="hide cardStyle"></li>
-       <li id="Maslenok_zheltyy" class="hide cardStyle"></li>
-       <li id="good_card3" class="hide cardStyle"></li>
+     <ul id="good_cards" class="TypeStyle currentType Good">
+       <li id="Belyy_grib_obyknovennyy" class="hide cardStyle" title=""></li>
+       <li id="Maslenok_zheltyy" class="hide cardStyle" title=""></li>
+       <li id="good_card3" class="hide cardStyle" title="а"></li>
        <li id="good_card4" class="hide cardStyle"></li>
        <li id="good_card5" class="hide cardStyle"></li>
        <li id="good_card6" class="hide cardStyle"></li>
@@ -95,8 +37,8 @@ height: 100%;}
        <li id="good_card19" class="hide cardStyle"></li>
        <li id="good_card20" class="hide cardStyle"></li>
      </ul>
-     <ul id="bad_cards" class="TypeStyle">
-       <li id="Galerina_mokhovaya" class="hide cardStyle"></li>
+     <ul id="bad_cards" class="TypeStyle Bad">
+       <li id="Galerina_mokhovaya" class="hide cardStyle" title=""></li>
        <li id="bad_card2" class="hide cardStyle"></li>
        <li id="bad_card3" class="hide cardStyle"></li>
        <li id="bad_card4" class="hide cardStyle"></li>
@@ -117,8 +59,8 @@ height: 100%;}
        <li id="bad_card19" class="hide cardStyle"></li>
        <li id="bad_card20" class="hide cardStyle"></li>
      </ul>
-     <ul id="gluck_cards" class="TypeStyle">
-       <li id="Kolokolnyy_zasranets" class="hide cardStyle"></li>
+     <ul id="gluck_cards" class="TypeStyle Gluck">
+       <li id="Kolokolnyy_zasranets" class="hide cardStyle" title=""></li>
        <li id="gluck_card2" class="hide cardStyle"></li>
        <li id="gluck_card3" class="hide cardStyle"></li>
        <li id="gluck_card4" class="hide cardStyle"></li>
@@ -139,7 +81,7 @@ height: 100%;}
        <li id="gluck_card19" class="hide cardStyle"></li>
        <li id="gluck_card20" class="hide cardStyle"></li>
      </ul>
-     <ul id="gold_cards" class="TypeStyle">
+     <ul id="gold_cards" class="TypeStyle Gold">
        <li id="gold_card1" class="hide cardStyle"></li>
        <li id="gold_card2" class="hide cardStyle"></li>
        <li id="gold_card3" class="hide cardStyle"></li>
@@ -162,7 +104,7 @@ height: 100%;}
        <li id="gold_card20" class="hide cardStyle"></li>
      </ul>
   </div>
-  <div id="closemini"></div>
+  <div id="closemini" class="closeAddWindow">Х</div>
 </div>
   
 
@@ -196,16 +138,12 @@ height: 100%;}
         }
       }
     });
-
-    $('#closemini').on('click',function(){
-      parameters.interface.forms.minicards.hide();
-    });
   }
-OpenTypeLayer();
+  OpenTypeLayer();
+
   var BigCard = function(){
     $('.cardStyle').on('click',function(){
       var thisCard = this.id
-      // var id = obj[''+thisCard+'']
       for (var i = 0; i < parameters.SetShrooms.length; i++)
       for (var q = 0; q < parameters.SetShrooms[i].length; q++){
         if (parameters.SetShrooms[i][q].recognition == thisCard){
@@ -213,10 +151,11 @@ OpenTypeLayer();
               url: '/shroom/' + parameters.SetShrooms[i][q].id,
               dataType: 'html',
               success: function(data) {
-                  parameters.interface.forms.cards.show();
-                  parameters.interface.forms.cards.append(data);
+                  parameters.interface.forms.bigcards.show();
+                  parameters.interface.forms.bigcards.append(data);
               }
-          });
+          })
+        break
         }
       } 
     });

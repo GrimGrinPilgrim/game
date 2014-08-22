@@ -1,0 +1,116 @@
+
+<div id="CreatedSet">
+  <ul id="AllCreatures">
+    <li id="Creature_1" class="iconCreated">
+      <img src="/images/squirrel_simple.png">
+      <div class="priceAndSroom">
+        <p>Цена:<span id="Simple_price0"></span></p>
+        <p>Shroom:<span id="Simple_ShroomPerSec0"> 1</span></p>
+      </div>
+    </li>
+    <li id="Creature_2" class="iconCreated">
+      <img src="/images/squirrel_simple.png">
+      <div class="priceAndSroom">
+        <p>Цена:<span id="Simple_price1"></span></p>
+        <p>Shroom:<span id="Simple_ShroomPerSec1"> 2</span></p>
+      </div>
+    </li>
+    <li id="Creature_3" class="iconCreated hide">
+      <img src="/images/squirrel_simple.png">
+      <div class="priceAndSroom">
+        <p>Цена:<span id="Simple_price2"></span></p>
+        <p>Shroom:<span id="Simple_ShroomPerSec2"> 2</span></p>
+      </div>
+    </li>
+    <li id="Creature_4" class="iconCreated hide">
+      <img src="/images/squirrel_simple.png">
+      <div class="priceAndSroom">
+        <p>Цена:<span id="Simple_price3"></span></p>
+        <p>Shroom:<span id="Simple_ShroomPerSec3"> 2</span></p>
+      </div>
+    </li>
+    <li id="Creature_5" class="iconCreated hide">
+      <img src="/images/squirrel_simple.png">
+      <div class="priceAndSroom">
+        <p>Цена:<span id="Simple_price4"></span></p>
+        <p>Shroom:<span id="Simple_ShroomPerSec4"> 2</span></p>
+      </div>
+    </li>
+    <li id="Creature_6" class="iconCreated hide">
+      <img src="/images/squirrel_simple.png">
+      <div class="priceAndSroom">
+        <p>Цена:<span id="Simple_price5"></span></p>
+        <p>Shroom:<span id="Simple_ShroomPerSec5"> 2</span></p>
+      </div>
+    </li>
+  </ul>
+  <div id="info">
+    <div id="info_0" class="currentType">
+      <p>Белка</p>
+      <p>Всего белок:<span id="all_created0"></span></p>
+      <p>всего добыто:<span id="all_shrooms0"></span></p>
+      <p>все в секунду:<span id="all_perCes0"></span></p>
+    </div>
+    <div id="info_1">
+      <p>стрелка</p>
+      <p>Всего белок:<span id="all_created1"></span></p>
+      <p>всего добыто:<span id="all_shrooms1"></span></p>
+      <p>все в секунду:<span id="all_perCes1"></span></p>
+    </div>
+    <div id="info_2">
+      <p>Белка</p>
+      <p>Всего белок:<span id="all_created2"></span></p>
+      <p>всего добыто:<span id="all_shrooms2"></span></p>
+      <p>все в секунду:<span id="all_perCes2"></span></p>
+    </div>
+    <div id="info_3">
+      <p>Белка</p>
+      <p>Всего белок:<span id="all_created3"></span></p>
+      <p>всего добыто:<span id="all_shrooms3"></span></p>
+      <p>все в секунду:<span id="all_perCes3"></span></p>
+    </div>
+  </div>
+  <div id="closestaff" class="closeAddWindow">Х</div>
+</div>
+<script type="text/javascript">
+  var CreaturesInfo = [
+     {
+      creature:  $('#Creature_1'),
+      info: $('#info_0')
+    },
+     {
+      creature:  $('#Creature_2'),
+      info: $('#info_1')
+    },
+     {
+      creature:  $('#Creature_3'),
+      info: $('#info_2')
+    },
+   {
+      creature:  $('#Creature_4'),
+      info: $('#info_3')
+    }
+  ]
+
+   var ShowCreaturesInfo = function(){
+    $('.iconCreated').on('click',function(){
+      var group = $('#'+this.id+'')
+      for(i=0;i<CreaturesInfo.length;i++){
+        CreaturesInfo[i].info.removeClass('currentType')
+        if(CreaturesInfo[i].creature[0]==group[0]){
+          CreaturesInfo[i].info.addClass('currentType')
+        }
+      }
+    });
+  }
+ShowCreaturesInfo();
+
+  var StaffInfo = function(circ){
+    $('#Simple_price'+circ+'').text(' '+parameters.circalParametrs[circ].PayForSquirrel+'')
+    $('#all_created'+circ+'').text(' '+parameters.circalCreater[circ].Squirrel+'')
+    $('#all_perCes'+circ+'').text(' '+parameters.circalParametrs[circ].MushFromSquirrel+'')
+    $('#all_shrooms'+circ+'').text(' '+parameters.circalParametrs[circ].AllMushFromSquirrel+'')
+
+  }
+</script>
+

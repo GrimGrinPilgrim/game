@@ -19,6 +19,7 @@ module.exports = {
     type_id: 'integer',
     circal_id: 'integer',
     recognition: 'string',
+    effect: 'string',
     chanse:'integer',
     count: {
       type: 'integer',

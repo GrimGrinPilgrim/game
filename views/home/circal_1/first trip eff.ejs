@@ -1,26 +1,37 @@
 <style>
-  body {margin: 0;
+body {margin: 0;
     padding: 0;
     width: 100%;
     height: 100%;
     overflow: hidden;
-  }
-  #video{ width: 100%;
+}
+#video{ width: 100%;
     margin-top: 0%;
-    opacity: 1;}
-  canvas{ position: absolute;
+    opacity: 1;
+}
+#canvasFirst{ position: absolute;
     left: 0;
     top: 0;
-    opacity: 0;}
+    opacity: 0;
+}
+#effect1{ opacity: 0.95;
+}
 </style>
-<canvas id="canvas"></canvas>
-<video id="video" autoplay muted>
-  <source src="trips/leaf/leaf.ogv" type='video/ogg; codecs="theora, vorbis"'>
-  <source src="trips/leaf/leaf.webm" type='video/webm'>
-  <source src="trips/leaf/leaf.mp4" type='video/mp4'>
-</video>
+<script type="text/javascript" src="/js/jquery.js"></script>
+
+<div id="effect1">
+    <canvas id="canvasFirst"></canvas>
+    <video id="video" autoplay muted>
+      <source src="trips/leaf/leaf.ogv" type='video/ogg; codecs="theora, vorbis"'>
+      <source src="trips/leaf/leaf.webm" type='video/webm'>
+      <source src="trips/leaf/leaf.mp4" type='video/mp4'>
+    </video>
+</div>
 
 <script>
+    var x = 400
+    var flag = false
+    var renderStart = true
     var myVideo=document.getElementById("video");
     
     $(document).ready(function(){
@@ -29,23 +40,61 @@
     var dontharry = function(){
       if (myVideo.currentTime>=5) {myVideo.playbackRate = 0.5}
     };
+
   myVideo.onended = function(e) {
-    console.log(myVideo.currentTime)
     myVideo.playbackRate = 1
     myVideo.play();
-    $('canvas').css('opacity','1')
+
+    if(flag == false){
+         $('#canvasFirst').css('opacity','1')
+         $('#effect1').animate({'opacity':'0'},15000, function(){
+            Recognition.OpenMiniCard(0,Shroom);
+            parameters.interface.forms.effectgluck.empty()
+            .hide()
+            renderStart = false
+            window.GameTime = 0;
+         })
+         
+    }
+
     var r1 = Math.floor(Math.random()*255)
     var r2 = Math.floor(Math.random()*255)
     var g1 = Math.floor(Math.random()*255)
     var g2 = Math.floor(Math.random()*255)
     var b1 = Math.floor(Math.random()*255)
     var b2 = Math.floor(Math.random()*255)
-    console.log(r1,r2,g1,g2,b1,b2);
+    Game();
     init(r1,r2,g1,g2,b1,b2);
+
   };
+/*(function() {
+    var lastTime = 0;
+    var vendors = ['webkit', 'moz'];
 
+    for(var x = 0; x < vendors.length && !window.requestAnimationFrame; ++x) {
+        window.requestAnimationFrame = window[vendors[x]+'RequestAnimationFrame'];
+        window.cancelAnimationFrame = window[vendors[x]+'CancelAnimationFrame'] || window[vendors[x]+'CancelRequestAnimationFrame'];
+    }
 
-(function() {
+    if(!window.requestAnimationFrame) {
+        window.requestAnimationFrame = function(callback) {
+            var currTime = new Date().getTime();
+            var timeToCall = Math.max(0, 16 - (currTime - lastTime));
+            var id = window.setTimeout(function() { callback(currTime + timeToCall); },
+                timeToCall);
+            lastTime = currTime + timeToCall;
+            return id;
+        };
+    }
+
+    if(!window.cancelAnimationFrame) {
+        window.cancelAnimationFrame = function(id) {
+            clearTimeout(id);
+        };
+    }
+}());*/
+
+function Game() {
     var GameTime = function() {
         this.delta = 0;
         this.elapsed = 0;
@@ -63,56 +112,55 @@
     };
 
     GameTime.getTime = function() {
-        return (new Date().getTime() / 1000);
+        return (new Date().getTime() / x);
+
     };
 
     window.GameTime = GameTime;
-})();
+console.log(window)}
+
 ////////////////////////////////////////////////////////////
-
-    var canvas, ctx, particles = [];
-var gametime = new GameTime();
-
+var canvas, ctx, particles = [];   
 var settings = {}
 
-//window.addEventListener('load', init, false);
-window.addEventListener('resize', resizeHandler, false);
-
 function init(r1,r2,g1,g2,b1,b2) {
-  settings = {
+    gametime = new GameTime();
+
+    settings = {
+        attract: {
+            particles: 25,
+            color: [r1, g1, b1],
+            radius: 100,
+            strength: 100,
+            freeze: false,
+            rad:Math.random()*(50 - 28) + 28
+        },
+
+        repel: {
+            particles: 20,
+            color: [r2, g2, b2],
+            radius: 300,
+            strength: 100,
+            freeze: false,
+            rad:Math.random()*(30 - 10) + 10
+        },
+
+        drawLines: false,
+        elasticity: 0.8,
+        friction: 0.02,
+        gravity: 0
+    };
+    if (flag==false){
     
+        window.addEventListener('load', init, false);
+        window.addEventListener('resize', resizeHandler, false);
+        canvas = document.getElementById('canvasFirst');
+        canvas.addEventListener('click', clickHandler, false);
+        ctx = canvas.getContext('2d');
+        resizeHandler();
+        flag=true;
+    }
 
-    attract: {
-        particles: 25,
-        color: [r1, g1, b1],
-        radius: 100,
-        strength: 100,
-        freeze: false,
-        rad:Math.random()*(50 - 28) + 28
-    },
-
-    repel: {
-        particles: 20,
-        color: [r2, g2, b2],
-        radius: 300,
-        strength: 100,
-        freeze: false,
-        rad:Math.random()*(30 - 10) + 10
-    },
-
-    drawLines: false,
-    elasticity: 0.8,
-    friction: 0.02,
-    gravity: 0
-};
-console.log(settings.attract.color)
-console.log(settings.repel.color)
-    canvas = document.getElementById('canvas');
-    canvas.addEventListener('click', clickHandler, false);
-
-    ctx = canvas.getContext('2d');
-
-    resizeHandler();
     reset();
     render();
 }
@@ -133,30 +181,33 @@ function addParticle(prop, behavior) {
     p.radius = settings[prop].radius || 0;
     p.strength = settings[prop].strength || 0;
 
-    /*p.velocity.x = Math.random() * 30;
-    p.velocity.y = Math.random() * 2 - 1;*/
+    p.velocity.x = Math.random() * 30;
+    p.velocity.y = Math.random() * 2 - 1;
 
     particles.push(p);
 }
 
 function render() {
-    var i;
+     
+    if (renderStart ==true){
+        var i;
+        console.log(gametime)
+        requestAnimationFrame(render);
+        gametime.update();
+        ctx.globalAlpha = 0.1;
 
-    requestAnimationFrame(render);
-    gametime.update();
+        ctx.clearRect(0, 0, canvas.width, canvas.height);
+        ctx.fillRect(0, 0, canvas.width, canvas.height);
 
-    ctx.globalAlpha = 0.1;
+        ctx.globalCompositeOperation = 'lighter';
 
-    ctx.clearRect(0, 0, canvas.width, canvas.height);
-    ctx.fillRect(0, 0, canvas.width, canvas.height);
+        
+            i = particles.length;
+            while(i--) particles[i].update(particles);
 
-    ctx.globalCompositeOperation = 'lighter';
-
-    i = particles.length;
-    while(i--) particles[i].update(particles);
-
-    i = particles.length;
-    while(i--) particles[i].render(particles);
+            i = particles.length;
+            while(i--) particles[i].render(particles);
+    }
 }
 
 function explode(pos, rad) {

@@ -47,11 +47,20 @@ module.exports.routes = {
   },
 
   '/effect1' : {
-    view: 'home/circal_1/first trip eff'
+    controller: 'GameController',
+    action: 'FirstGluck'
   },
   '/setCard': {
     controller: 'GameController',
     action: 'renderCardSet'
+  },
+  '/creatures': {
+    controller: 'GameController',
+    action: 'renderStuffSet'
+  },
+  '/map': {
+    controller: 'GameController',
+    action: 'renderMap'
   }
 
   /*

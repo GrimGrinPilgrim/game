@@ -36,6 +36,7 @@
 			<option value="<%- type.id %>" <%- (shroom.type_id == type.id) ? "selected" : "" %>><%- type.name %></option>
 		<% }) %>
 	</select>
+	<input type="text" name="effect" value="<%- shroom.effect %>" placeholder="Спецэффект"/>
 	<input type="file"  name="image" /><img src="<%- shroom.image %>"/>
 	<textarea class="moreinfo" name="where" placeholder="где искать"><%- shroom.where %></textarea>
 	<textarea class="moreinfo"  name="when" placeholder="когда искать"><%- shroom.when %></textarea>
